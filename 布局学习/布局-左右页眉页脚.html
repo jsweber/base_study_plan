@@ -1,0 +1,46 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>上中下布局</title>
+    <style>
+        body, header, section, footer, div, p, a, ul, li, span, h1, h2, h3, h4, nav{margin:0;padding:0}
+        .wrap{
+            width: 900px;
+            margin: 0 auto;
+            font-size: 20px;
+            text-align: center;
+        }
+        .header{
+            height: 100px;
+            background: #6cf;
+        }
+        .body{
+            height: 500px;
+            background: #cff;
+        }
+        .footer{
+            height: 80px;
+            background: #9cf;
+        }
+        .left{
+            width: 200px;
+            height: 100%;
+            float: left;
+            background: blue;
+        }
+        .right{
+            margin-left: 200px;
+            height: 100%;
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+    <header class="header wrap"></header>
+    <section class="body wrap">
+        <aside class="left"></aside>
+        <div class="right"></div>
+    </section>
+    <footer class="footer wrap"></footer>
+</body>
+</html>

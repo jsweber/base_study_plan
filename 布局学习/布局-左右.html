@@ -1,0 +1,75 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>上中下布局</title>
+    <style>
+        body, header, section, footer, div, p, a, ul, li, span, h1, h2, h3, h4, nav, aside{margin:0;padding:0}
+        .wrap{
+            margin: 0 auto;
+            width: 900px;
+        }
+    </style>
+    <!-- 混合浮动+普通流 -->
+    <!-- <style>
+        aside{
+            width: 200px;
+            height: 500px;
+            background: #cff;
+            float: left;
+        }
+        section{
+            height: 500px;
+            background: #fcc;
+            margin-left: 200px;
+        }
+    </style> -->
+    <!-- 浮动 -->
+    <style>
+        /* .wrap{
+            overflow: hidden;
+        }
+        aside{
+            width: 200px;
+            height: 500px;
+            background: #cff;
+            float: left;
+        }
+        section{
+            width: 700px;
+            height: 500px;
+            float:left;
+            background:#fcc;   
+        } */
+    </style>
+    <!-- 绝对定位 -->
+    <style>
+        .wrap{
+            position: relative;
+        }
+        aside{
+            width: 200px;
+            height: 500px;
+            background: #cff;
+            position: absolute;
+            top:0;
+            left:0;
+            
+        }
+        section{
+            width: 700px;
+            height: 500px;
+            background: #fcc;
+            position: absolute;
+            top:0;
+            right:0;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="wrap">
+        <aside></aside>
+        <section></section>
+    </div>
+</body>
+</html>
