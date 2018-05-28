@@ -53,6 +53,9 @@
     let len = size * size
     let girdSize = 100
     let arr = []
+    let count = 0 //相邻两个li的class相同则加一
+    let result = []
+    let prevLi //上一个li元素
 
     oUl.style.width = `${size * (girdSize + 1)}px`
     for (let i = 0; i< len; i++){
@@ -62,7 +65,23 @@
         oUl.appendChild(li)
         arr.push(i)
     }
-    
+
+    prevLi = lis[0]
+    for (let i = 0; i < lis.length; i++){
+        if (prevLi.className === lis[i].className && i % size !== 0){
+            count++
+        }else {
+            if (count >1){
+                for (let j = 0; j <= count; j++){
+                    result.unshift(lis[i - j - 1])
+                }
+            }
+            count = 0
+        }
+        prevLi = lis[i]
+    }
+    console.log(result)
+
 
     arr = changeXY(arr, size)
     
