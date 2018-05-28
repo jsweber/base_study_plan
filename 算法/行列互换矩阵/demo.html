@@ -20,16 +20,25 @@
             text-align: center;
             line-height: 50px;
             background-size: cover;
+            background-repeat: no-repeat;
             background-color: pink;
         }
-        #ul li.active{
-            animation: flash 0.5s infinite 1;
-        }
-        @keyframes flash{
-            0%{opacity: 0;}
-            100%{opacity: 100%;}
-        }
         
+        #ul .li1{
+            background-image: url('../../static/beauty1.jpg');
+        }
+        #ul .li2{
+            background-image: url('../../static/beauty2.jpg');
+        }
+        #ul .li3{
+            background-image: url('../../static/beauty3.jpg');
+        }
+        #ul .li4{
+            background-image: url('../../static/beauty4.jpg');
+        }
+        #ul .li5{
+            background-image: url('../../static/beauty5.jpg');
+        }
     </style>
 </head>
 <body>
@@ -40,47 +49,23 @@
 <script>
     let oUl = document.getElementById('ul')
     let lis = oUl.getElementsByTagName('li')
-    let size = 4
+    let size = 7
     let len = size * size
-    let girdSize = 50
+    let girdSize = 100
     let arr = []
 
     oUl.style.width = `${size * (girdSize + 1)}px`
     for (let i = 0; i< len; i++){
         let li = document.createElement('li')
         li.style.cssText = `width:${girdSize}px;height:${girdSize}px`
-        li.innerHTML = i
+        li.classList.add(`li${Math.floor(Math.random() * 5)+1}`)
         oUl.appendChild(li)
         arr.push(i)
     }
+    
 
-
-    arr = changeXY(arr)
-    for (let i = 0; i<len; i++){
-        lis[i].innerHTML = arr[i]
-    }
-
-    function changeXY(arr){
-        let newArr = []
-        let index = 0
-
-        function loop(){
-            if (index === size){
-                return
-            }
-
-            for (let i = 0; i <arr.length; i++){
-                if (arr[i] % size === index ){
-                    newArr.push(arr[i])
-                }
-            }
-            index++
-            loop()   
-        }
-        loop()
-
-        return newArr
-    }
+    arr = changeXY(arr, size)
+    
 
 
 
