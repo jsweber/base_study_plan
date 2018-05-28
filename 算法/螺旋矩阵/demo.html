@@ -54,7 +54,7 @@
                 lis[arr[prev]].classList.remove('active')
             }
             prev = now
-            lis[arr[now]].style.backgroundImage = `url(./beauty${Math.floor(Math.random() * 3) +1}.jpg)`
+            lis[arr[now]].style.backgroundImage = `url(../../static/beauty${Math.floor(Math.random() * 3) +1}.jpg)`
             lis[arr[now]].classList.add('active')
             now++
             if (now < arr.length) setTimeout(loopFn, delay)
