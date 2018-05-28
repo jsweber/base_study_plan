@@ -1,0 +1,97 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>行列互换矩阵</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        #ul{
+            margin:20px auto;
+            border: 1px #000 solid;
+            border-bottom: none;
+            border-right: none;
+            overflow: hidden;
+        }
+        #ul li{
+            border: 1px #000 solid;
+            border-top: none;
+            border-left: none;
+            float: left;
+            text-align: center;
+            line-height: 50px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-color: pink;
+        }
+        
+        #ul .li1{
+            background-image: url('../../static/beauty1.jpg');
+        }
+        #ul .li2{
+            background-image: url('../../static/beauty2.jpg');
+        }
+        #ul .li3{
+            background-image: url('../../static/beauty3.jpg');
+        }
+        #ul .li4{
+            background-image: url('../../static/beauty4.jpg');
+        }
+        #ul .li5{
+            background-image: url('../../static/beauty5.jpg');
+        }
+    </style>
+</head>
+<body>
+    <ul id="ul">
+
+    </ul>
+<script src="./algo.js"></script>
+<script>
+    let oUl = document.getElementById('ul')
+    let lis = oUl.getElementsByTagName('li')
+    let size = 7
+    let len = size * size
+    let girdSize = 100
+    let arr = []
+    let result = []
+
+    oUl.style.width = `${size * (girdSize + 1)}px`
+    for (let i = 0; i< len; i++){
+        let li = document.createElement('li')
+        li.style.cssText = `width:${girdSize}px;height:${girdSize}px`
+        li.classList.add(`li${Math.floor(Math.random() * 5)+1}`)
+        oUl.appendChild(li)
+        arr.push(i)
+    }
+
+    function getSame(arr, lis){
+        if (!lis && lis.length === 0){
+            throw 'second param error'
+        }
+        let count = 0 //相邻两个li的class相同则加一
+        let result = []
+        let prevLi =  lis[arr[0]] //上一个li元素
+
+        for (let i = 0; i < arr.length; i++){
+            if (prevLi.className === lis[arr[i]].className && arr[i] % size !== 0){
+                count++
+            }else {
+                if (count >1){
+                    for (let j = 0; j <= count; j++){
+                        result.unshift(lis[arr[i - j - 1]])
+                    }
+                }
+                count = 0
+            }
+            prevLi = lis[arr[i]]
+        }
+        return result
+    }
+
+    result = getSame(arr, lis)
+    result = result.concat(getSame(changeXY(arr, size), lis))
+    console.log(result)
+
+</script>
+</body>
+</html>

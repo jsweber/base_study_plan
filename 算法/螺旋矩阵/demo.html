@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>螺旋矩阵算法</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        #ul{
+            margin:20px auto;
+            border: 1px #000 solid;
+            border-bottom: none;
+            border-right: none;
+            overflow: hidden;
+        }
+        #ul li{
+            border: 1px #000 solid;
+            border-top: none;
+            border-left: none;
+            float: left;
+            text-align: center;
+            line-height: 50px;
+            background-size: cover;
+            background-color: pink;
+        }
+        #ul li.active{
+            animation: flash 0.5s infinite 1;
+        }
+        @keyframes flash{
+            0%{opacity: 0;}
+            100%{opacity: 100%;}
+        }
+        
+    </style>
+</head>
+<body>
+    <ul id="ul">
+
+    </ul>
+<script src="./algo.js"></script>
+<script>
+    (function(doc){
+        let lis = document.getElementsByTagName('li')
+        let delay = 800
+        let now = 0
+        let prev
+
+        let arr = algoLine('ul', function(id, li){
+            // li.innerHTML = id
+        }, 8, 100)
+        
+        let timer = setTimeout(function loopFn(){
+            if (typeof prev === 'number') {
+                lis[arr[prev]].style.backgroundImage = 'none'
+                lis[arr[prev]].classList.remove('active')
+            }
+            prev = now
+            lis[arr[now]].style.backgroundImage = `url(../../static/beauty${Math.floor(Math.random() * 3) +1}.jpg)`
+            lis[arr[now]].classList.add('active')
+            now++
+            if (now < arr.length) setTimeout(loopFn, delay)
+        }, delay)
+
+
+    })(document)
+
+
+</script>
+</body>
+</html>
