@@ -22,6 +22,7 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-color: pink;
+            opacity: 0.3
         }
         
         #ul .li1{
@@ -51,7 +52,7 @@
     let lis = oUl.getElementsByTagName('li')
     let size = 7
     let len = size * size
-    let girdSize = 100
+    let girdSize = 120
     let arr = []
     let result = []
 
@@ -64,32 +65,46 @@
         arr.push(i)
     }
 
-    function getSame(arr, lis){
+    function getSame(lis){
         if (!lis && lis.length === 0){
             throw 'second param error'
         }
         let count = 0 //相邻两个li的class相同则加一
-        let result = []
-        let prevLi =  lis[arr[0]] //上一个li元素
+        let prevLi =  lis[0] //上一个li元素
 
-        for (let i = 0; i < arr.length; i++){
-            if (prevLi.className === lis[arr[i]].className && arr[i] % size !== 0){
+        function filterLi(li){
+            for (let i = 0; i < result.length; i++){
+                if (li === result[i]){
+                    return false
+                }
+            }
+            return true
+        }
+
+        for (let i = 0; i < lis.length; i++){
+            if (prevLi.className === lis[i].className && i % size !== 0){
                 count++
             }else {
                 if (count >1){
                     for (let j = 0; j <= count; j++){
-                        result.unshift(lis[arr[i - j - 1]])
+                        if (filterLi(lis[i - j - 1])){
+                            result.unshift(lis[i - j - 1])
+                        }
                     }
                 }
                 count = 0
             }
-            prevLi = lis[arr[i]]
+            prevLi = lis[i]
         }
         return result
     }
 
-    result = getSame(arr, lis)
-    result = result.concat(getSame(changeXY(arr, size), lis))
+    result = getSame(lis)
+    getSame(changeXY(lis, size))
+
+    for(let i=0; i<result.length; i++){
+        result[i].style.opacity = 1
+    }
     console.log(result)
 
 </script>

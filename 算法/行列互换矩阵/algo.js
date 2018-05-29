@@ -12,7 +12,7 @@ let changeXY = function(arr, size=5){
         if (index === size) return
 
         for (let i = 0; i< arr.length; i++){
-            if (arr[i] % size === index){
+            if (i % size === index){
                 newArr.push(arr[i])
             }
 
