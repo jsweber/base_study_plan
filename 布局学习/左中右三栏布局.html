@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>上中下布局</title>
+    <style>
+        body, header, section, footer, div, p, a, ul, li, span, h1, h2, h3, h4, nav{margin:0;padding:0}
+        .wrapper{
+            width: 80%;
+            margin: 0 auto;
+            font-size: 20px;
+            text-align: center;
+        }
+        .left{
+            width: 200px;
+            height: 500px;
+            background: #cff;
+            float:left
+        }
+        .right{
+            width: 200px;
+            height: 500px;
+            background: #cff;
+            float: right;
+        }
+        .middle{
+            height: 500px;
+            background: pink;
+            margin: 0 200px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <aside class="left"></aside>
+        <aside class="right"></aside>
+        <!-- 注意section不能放在上面，因为它会独占一行把float的元素挤下去，把float元素放上面的话脱离文档流就不会造成挤下去的问题 -->
+        <section class="middle"></section>
+    </div>
+</body>
+</html>
