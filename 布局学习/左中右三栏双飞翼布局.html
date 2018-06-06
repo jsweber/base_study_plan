@@ -1,0 +1,49 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>上中下布局</title>
+    <style>
+        body, header, section, footer, div, p, a, ul, li, span, h1, h2, h3, h4, nav{margin:0;padding:0}
+        .wrapper{
+            width: 80%;
+            margin: 0 auto;
+            font-size: 20px;
+            text-align: center;
+        }
+        .left{
+            width: 200px;
+            height: 500px;
+            background: #cff;
+            float:left;
+            margin-left: -100%;
+        }
+        .right{
+            width: 200px;
+            height: 500px;
+            background: #cff;
+            float: left;
+            margin-left: -200px;
+        }
+        .main{
+            width: 100%;
+            float: left;
+        }
+        .middle{
+            height: 500px;
+            background: pink;
+            margin: 0 200px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="main">
+                <section class="middle">middle</section>
+        </div>
+        <aside class="left">left</aside>
+        <aside class="right">right</aside>
+        
+    </div>
+</body>
+</html>
