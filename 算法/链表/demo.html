@@ -12,11 +12,55 @@
     
 <script src="./LList.js"></script>
 <script>
-    let llist = new LList()
-    llist.push('a')
-    llist.push('b')
-    llist.push('c')
-    llist.display()
+    // let llist = new LoopLList()
+    // llist.push('a')
+    // llist.push('b')
+    // llist.push('c')
+    // llist.display()
+
+    function killGame(num, step){
+
+        let people = new LoopLList()
+        let count = 0
+        let name = Head
+        let killSortLine = []
+
+
+        for (let i = 0; i < num; i++){
+            people.push(i+1)
+        }
+        
+        loopKill()
+        function loopKill(){
+            if (people.length === 0){
+                return
+            }
+
+            count++
+            name = people.find(name).next.name
+
+            if (name === Head){
+                //一轮循环到头后排除head
+                name = people.find(name).next.name
+            }
+
+            if (count === step){
+                killSortLine.push(name)
+                let tempName = people.findPrev(name).name
+                people.remove(name)
+                name = tempName
+                count = 0
+                
+            }
+            loopKill()
+        }
+
+        return killSortLine
+    }
+    //一共41人，数到3杀一人
+    console.log(killGame(41, 3))
+
+
 
 </script>
 </body>
