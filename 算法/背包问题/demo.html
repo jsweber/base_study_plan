@@ -1,0 +1,68 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>动态规划算法</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+        动态规划算法
+        1.求解最优性质的问题
+        2.计算所有可能情况
+<script>
+    //在M件物品中取出若干放在空间W的背包里，每一件的体积为w1,  w2,  w3....对应的价值为 p1, p2 ,p3 .....求这个背包能装最大价值
+    const BagContainer = 16
+
+    const Somethings = [
+        {
+            prize: 4,
+            weight: 3
+        },
+        {
+            prize: 5,
+            weight: 4
+        },
+        {
+            prize: 10,
+            weight: 7
+        },
+        {
+            prize: 11,
+            weight: 8
+        },
+        {
+            prize: 13,
+            weight: 9
+        }
+    ]
+
+    function show(W, somethings){
+        let len = somethings.length
+        let result = []
+        for (let n = 0; n <= len; n++){
+            result.push([])
+            for (let w = 0; w < W; w++){
+                if (n === 0){
+                    result[n][w] = 0
+                }
+
+                if (n > 0 && somethings[ n-1 ].weight > w){
+                    result[n][w] = result[n -1 ][w]
+                }
+
+                
+
+
+            }
+        }
+
+    }
+
+    console.log(show(BagContainer, somethings))
+
+</script>
+</body>
+</html>
