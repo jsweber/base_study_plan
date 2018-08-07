@@ -1,0 +1,98 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>行列互换矩阵</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+       
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <form action="/register" id="register">
+            <div><label for="username">username:</label><input type="text" name="username" id="username"></div>
+            <div><label for="passwd">password:</label><input type="text" name="passwd" id="passwd"></div>
+            <div><label for="phone">phone:</label><input type="text" name="phone" id="phone"></div>
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+<script>
+    const strategies = {
+        isNonEmpty(value, errMsg){
+            if (value === ''){
+                return errMsg
+            }
+        },
+        minLength(value, length, errMsg){
+            if (value.length < length){
+                return errMsg
+            }
+        },
+        isMobile(value, errMsg){
+            if (!/(^1[3|5|7|8][0-9]{9}$)/.test(value)){
+                return errMsg
+            }
+        }
+    }
+
+    let Validator = function(){
+        this.cache = []
+    }
+
+    Validator.prototype.add = function(dom, rule, errMsg){
+
+        if (typeof rule === 'string'){
+            this.parseRule(dom,rule, errMsg)
+        }else {
+            for (let i=0, r; (r = rule[i++]);){
+                this.parseRule(dom,r.strategy, r.errMsg)
+            }
+        }
+    }
+
+    Validator.prototype.parseRule = function(dom, rule, errMsg){
+        let arg = rule.split(':')
+        this.cache.push(function(){
+            let stragegy = arg.shift()
+            arg.unshift(dom.value)
+            arg.push(errMsg)
+            return strategies[stragegy].apply(dom, arg)
+        })
+    }
+
+    Validator.prototype.start = function(){
+        let msg
+        for (let i = 0, func; (func = this.cache[i++]);){
+            if ((msg = func())){
+                return msg
+            }
+        }
+    }
+
+    let register = document.getElementById('register')
+    let validataFunc = function(){
+        let v = new Validator()
+        v.add(register.username, [{
+            strategy: 'isNonEmpty', 
+            errMsg: '不能为空'
+        },{
+            strategy: 'minLength:4', 
+            errMsg: '用户名不能短于4'
+        }])
+        v.add(register.passwd, 'minLength:6', '长度不够')
+        v.add(register.phone, 'isMobile', '手机格式不正确')
+        return v.start()
+    }
+    register.onsubmit = function(){
+        let msg = validataFunc()
+        if (msg){
+            alert(msg)
+            return false
+        }
+    }
+
+</script>
+</body>
+</html>
