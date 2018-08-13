@@ -53,4 +53,40 @@ function compare(iterator1, iterator2){
 }
 compare(Iterator([1,2,3]), Iterator([1,2,3]))
 
+//案例，获取上传组件
+//说明：上传组件上传速度要比单纯的input file快，但是每个浏览器的上传组件不一样，甚至没有
+
+let getActiveUploadObj = function(){
+    try{
+        return new ActiveXObject('TXFTNActiveX.FTNUpload')
+    }catch(e){
+        return false
+    }
+}
+
+let getFlashUploadObj = function(){
+    try{
+        let obj = document.createElement('object')
+        obj.type = 'application/x-shockwave-flash'
+        return document.body.appendChild(obj)
+    }catch(e){
+        return false
+    }
+}
+
+let getFormUploadObj = function(){
+    let obj = document.createElement('input')
+    obj.type = 'file'
+    obj.name = 'file'
+    return document.body.appendChild(obj)
+}
+
+let iteratorUploadObj = function(){
+    for (let i = 0; i < arguments.length; i++){
+        let uploadObj = arguments[i]()
+        if (!uploadObj){
+            return uploadObj
+        }
+    }
+}
 
