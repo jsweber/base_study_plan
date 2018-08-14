@@ -7,7 +7,7 @@ public class StopWatch{
 	
 	public double stop(){
 		long now = System.currentTimeMillis();
-		return (now - start) / 1000;
+		return now - start;
     }
     
     public static void main(String[] args){
