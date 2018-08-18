@@ -7,6 +7,7 @@ public class SortCompare{
 
         if (alg.equals("Insert")) InsertSort.sort(a);
         if (alg.equals("Select")) SelectSort.sort(a);
+        if (alg.equals("Shell")) ShellSort.sort(a);
         return timer.stop();
     }
 
