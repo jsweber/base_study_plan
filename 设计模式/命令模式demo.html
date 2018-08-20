@@ -1,0 +1,68 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>命令模式</title>
+    <link rel="stylesheet" href="../common.css">
+    <style>
+       
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <button class="replay">回 放</button>
+</div>
+
+<script>
+    let log = console.log
+    let Ryu = {
+        attack(){
+            log('攻击')
+        },
+        defense(){
+            log('防御')
+        },
+        jump(){
+            log('跳跃')
+        },
+        crouch(){
+            log('蹲下')
+        }
+    }
+
+    let makeCommand = function(receiver, state){
+        return function(){
+            receiver[state]()
+        }
+    }
+
+    let commands = {
+        '119': 'jump',
+        '115': 'crouch',
+        '97': 'defense',
+        '100': 'attack'
+    }
+
+    let commandStack = []
+
+    document.onkeypress = function(e){
+        let code = e.keyCode
+        let command = makeCommand(Ryu, commands[code])
+
+        if (command){
+
+            command()
+            commandStack.push(command)
+        }
+    }
+    document.querySelector('.replay').onclick = function(){
+        let command
+        while(command=commandStack.shift()){
+            command()
+        }
+    }
+
+
+</script>
+</body>
+</html>
