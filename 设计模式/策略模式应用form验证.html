@@ -46,6 +46,7 @@
         if (typeof rule === 'string'){
             this.parseRule(dom,rule, errMsg)
         }else {
+            //rule为Array，表示对于这个dom值有多条验证规则
             for (let i=0, r; (r = rule[i++]);){
                 this.parseRule(dom,r.strategy, r.errMsg)
             }

@@ -11,8 +11,7 @@ function innerEach(arr,cb){
 }
 
 
-//外部迭代器
-
+//**外部迭代器
 function Iterator(obj){
     let current = 0
     function next(){
@@ -89,4 +88,6 @@ let iteratorUploadObj = function(){
         }
     }
 }
+
+let uploadObj = iteratorUploadObj(getActiveUploadObj, getFlashUploadObj, getFormUploadObj)
 

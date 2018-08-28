@@ -22,13 +22,13 @@ var setCommand = function(btn, command){
         command.execute()
     }
 }
-
+//业务逻辑
 let MenuBar = {
     refresh(){
         log('MenuBar refresh')
     }
 }
-
+//封装业务逻辑成规范化的命令
 let RefreshMenuBarCommand = function(receiver){
     return {
         execute(){
