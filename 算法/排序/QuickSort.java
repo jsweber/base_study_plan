@@ -26,8 +26,11 @@ public class QuickSort{
         }
         Student temp = v;
         v = a[j];
-        a[j] = v;
+        a[j] = temp;
         return j;
+    }
+    public static void main(String[] args){
+        
     }
 
 }

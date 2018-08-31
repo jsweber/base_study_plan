@@ -8,6 +8,8 @@ public class SortCompare{
         if (alg.equals("Insert")) InsertSort.sort(a);
         if (alg.equals("Select")) SelectSort.sort(a);
         if (alg.equals("Shell")) ShellSort.sort(a);
+        if (alg.equals("Quick")) QuickSort.sort(a);
+        if (alg.equals("Quick3Sort")) Quick3Sort.sort(a);
         return timer.stop();
     }
 

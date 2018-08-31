@@ -2,8 +2,8 @@ import java.lang.Comparable;
 import java.util.*;
 
 public class Compare implements Comparable<Compare>{
-    private double value;
-    private String key;
+    public double value;
+    public String key;
     public  Compare(String key, double value){
         this.key = key;
         this.value = value;
@@ -29,6 +29,9 @@ public class Compare implements Comparable<Compare>{
         Compare t = c1;
         c1 = c2;
         c2 = t;
+    }
+    public void showKey(){
+        System.out.println(key);
     }
 
     public static void main(String[] args){
