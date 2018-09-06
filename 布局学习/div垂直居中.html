@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>垂直居中</title>
+    <style>
+        body, header, section, footer, div, p, a, ul, li, span, h1, h2, h3, h4, nav, aside{margin:0;padding:0}
+        .wrap{
+            margin: 0 auto;
+            width: 900px;
+        }
+    </style>
+    <style>
+        .wrap{
+            position: relative;
+            height: 200px;
+            width: 200px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+        }
+        .main{
+            width: 100px;
+            height: 100px;
+            background:red;
+            text-align: center;
+        }
+        .center1{
+            margin: auto;
+            position: absolute;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+        }
+        .center2{
+            position: absolute;
+            top: 50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+        }
+        
+    </style>
+
+</head>
+<body>
+    <div class="wrap">
+        <div class="main center1">1</div>
+    </div>
+    <div class="wrap">
+        <div class="main center2">2</div>
+    </div>
+</body>
+</html>
