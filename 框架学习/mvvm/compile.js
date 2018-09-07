@@ -32,21 +32,13 @@ class Compile{
             let node = children[i]
             if (self.isElementNode(node)){
                 self.compile(node)
-                // let childNode = node.childNodes
-                // if (childNode && childNode.length > 0){
-                //     self.compileElement(node)
-                // }
+                let childNode = node.childNodes
+                if (childNode && childNode.length > 0){
+                    self.compileElement(node)
+                }
                 
             }else if (self.isTextNode(node) && pattern.test(node.textContent)){
                 self.compileText(node, RegExp.$1)
-            }
-        }
-
-        for (let i = 0; i < children.length; i++){
-            let node = children[i]
-            let childNode = node.childNodes
-            if (childNode && childNode.length > 0){
-                self.compileElement(node)
             }
         }
     }
