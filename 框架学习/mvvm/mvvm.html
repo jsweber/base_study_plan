@@ -18,11 +18,11 @@
     <div id="mvvm-app">
         <input type="text" v-model="someStr">
         <input type="text" v-model="child.someStr">
-        <!-- <p v-class="className" class="abc">
+        <p v-class="className" class="abc">
             {{someStr}}
             <span v-text="child.someStr"></span>
-        </p> -->
-        <p>{{getHelloWord}}</p>
+        </p>
+        <p class="getHelloWord">{{getHelloWord}}</p>
         <p v-html="htmlStr"></p>
         <button v-on:click="clickBtn">change model</button>
     </div>
@@ -47,11 +47,12 @@
             },
             computed: {
                 getHelloWord: function() {
-                    return this.someStr + this.child.someStr;
+                    return 'I am computed'+ this.someStr + this.child.someStr;
                 }
             },
             methods: {
                 clickBtn: function(e) {
+                    console.log(e)
                     var randomStrArr = ['childOne', 'childTwo', 'childThree'];
                     this.child.someStr = randomStrArr[parseInt(Math.random() * 3)];
                 }

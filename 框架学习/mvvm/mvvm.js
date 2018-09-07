@@ -9,8 +9,7 @@ class MVVM{
         this._initComputed()
 
         observe(data)
-
-        this.$compile = new Compile(data.el || document.body, this)
+        this.$compile = new Compile(options.el || document.body, this)
         
     }
 
@@ -38,7 +37,7 @@ class MVVM{
         let computed = this.$options.computed,
         self = this
 
-        if (typeof computed !== 'object'){
+        if (typeof computed == 'object'){
             Object.keys(computed).forEach(k => {
                 Object.defineProperty(self, k, {
                     get: typeof computed[k] == 'function' ? computed[k]: computed[k].get,

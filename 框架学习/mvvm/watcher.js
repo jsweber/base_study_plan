@@ -9,7 +9,7 @@ class Watcher{
         this.vm = vm
         this.expOrFn = expOrFn
         this.depIds = Object.create(null)
-
+       
         if (typeof expOrFn === 'function'){
             this.getter = expOrFn
         }else {
@@ -47,9 +47,7 @@ class Watcher{
     }
 
     parseGetter(exp){
-        if (!/[^\w.$]/.test(exp)) return
         let attrs = exp.split('.')
-
         return function(obj){
             for (let i = 0; i < attrs.length; i++){   
                 if (!obj) return

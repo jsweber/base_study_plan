@@ -32,13 +32,21 @@ class Compile{
             let node = children[i]
             if (self.isElementNode(node)){
                 self.compile(node)
-                let childNode = node.childNodes
-                if (childNode && childNode.length > 0){
-                    self.compileElement(el)
-                }
+                // let childNode = node.childNodes
+                // if (childNode && childNode.length > 0){
+                //     self.compileElement(node)
+                // }
                 
             }else if (self.isTextNode(node) && pattern.test(node.textContent)){
                 self.compileText(node, RegExp.$1)
+            }
+        }
+
+        for (let i = 0; i < children.length; i++){
+            let node = children[i]
+            let childNode = node.childNodes
+            if (childNode && childNode.length > 0){
+                self.compileElement(node)
             }
         }
     }
@@ -48,7 +56,7 @@ class Compile{
         let attrs = node.attributes,
         self = this,
         attr
-
+        
         for (let i=0; i < attrs.length; i++){
             attr = attrs[i]
             if (self.isDirective(attr.name)){
@@ -71,11 +79,11 @@ class Compile{
     }
 
     isDirective(dir){
-        return dir.indexOf('v-') > 0
+        return !!~dir.indexOf('v-')
     }
 
     isEventDirective(dir){
-        return dir.indexOf('on')> 0
+        return !!~dir.indexOf('on')
     }
 
     isElementNode(node){
@@ -133,7 +141,7 @@ let compileUtil = {
 
     _getVMVal(vm, exp){
         let keys = exp.split('.'), val = vm
-        leys.forEach(k => {
+        keys.forEach(k => {
             val = val[k]
         })
         return val
