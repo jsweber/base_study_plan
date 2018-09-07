@@ -6,7 +6,7 @@ class Observer{
 
     walk(data){
         Object.keys(data).forEach(k => {
-            this.convert(key, data[key])
+            this.convert(k, data[k])
         })
     }
 
@@ -28,7 +28,7 @@ class Observer{
             set(v){
                 if (v === val) return
 
-                val = v
+                val = v //这里用闭包让val不会消失，同时get也是返回v，所以不存在data[key]为基本类型时复制无效的情况，因为本身值已经和val挂靠了
                 console.log(`new: ${v}; old: ${val}`)
                 childObj = observe(val) //如果给的是引用类型，则需要重新监听新值
                 dep.notify()
@@ -38,45 +38,3 @@ class Observer{
 
 }
 
-function observe(d, vm){
-    if (!d || typeof d !== 'object') return
-    return new Observer(d)
-}
-
-let uid = 0
-//这里的sub|s其实就是Watcher类实例
-class Dep{
-    constructor(){
-        this.id = uid++
-        this.subs = []
-    }
-    static target = null
-
-    notify(){
-        this.subs.forEach(s => {
-            s.update()
-        })
-    }
-
-    depend(){
-        Dep.target.addDep(this)
-    }
-
-    addSub(s){
-        this.subs.push(s)
-    }
-
-    removeSub(sub){
-        let _i = this.subs.indexOf(sub)
-        if (!~_i){
-            this.subs.splice(index, 1)
-        }
-    }
-}
-
-if (module){
-    module.exports = {
-        Dep,
-        Observer
-    }
-}

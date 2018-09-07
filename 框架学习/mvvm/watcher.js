@@ -1,4 +1,9 @@
 class Watcher{
+    /**
+     * new Watcher(vm, exp, function(v, ov){
+            updateFn && updateFn(node, v, ov)
+        })
+    */
     constructor(vm, expOrFn, cb){
         this.cb = cb
         this.vm = vm
@@ -48,11 +53,10 @@ class Watcher{
         return function(obj){
             for (let i = 0; i < attrs.length; i++){   
                 if (!obj) return
-                obj = obj[attrs[i]]
+                obj = obj[attrs[i]] //注意，由于数据劫持，看上去访问的是data[key]，实际上返回的是定义key时闭包保存的val
             }
             return obj
         }
     }
 }
-
 
