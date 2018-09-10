@@ -18,6 +18,7 @@ log.write(app.tagName)
 * HTMLAncholElement
 * 它的属性和方法：href, name, rel, accessKey, tabindex, blur, focus ...
 */
+//  一·NODE类
 /**
  * 2.nodeType,nodeName,nodeValue与Node常量
  * 
@@ -61,7 +62,17 @@ log.write(app.childNodes[0].nodeValue)
  * 操作dom节点树
  * appendChild
  * parentNode.insertBefore(newNode, targetNode)
- * 
- * 
+ * parentNode.replaceChild(newNode, oldNode)
+ * parentNode.removeChild(removeNode)
+ * cloneNode = sourceNode.cloneNode(true) //方法克隆所有属性以及它们的值。如果您需要克隆所有后代，请把 deep 参数设置 true，否则设置为 false。
+*/
+
+// 核心Element类
+
+/**
+ * ELment类继承Node所有的属性和方法，同时为了便于操作节点属性和查找子element对象的方法
+ * element.getAttribute('href')
+ * element.setAttribute('href', 'www.baodu.com')
+ * element.removeAttribute('href)
 */
 
