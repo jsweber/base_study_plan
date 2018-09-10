@@ -5,15 +5,7 @@
  (function(win, doc){
      if (!win.ads){ win.ads = {} }
 
-     win['ads']['isCompatible'] = isCompatible
-     win['ads']['isNode'] = isNode
-     win['ads']['$'] = $
-     win['ads']['addEvent'] = addEvent
-     win['ads']['removeEvent'] = removeEvent
-     win['ads']['toggleDisplay'] = toggleDisplay
-     win['ads']['insertAfter'] = insertAfter
-     win['ads']['removeChildren'] = removeChildren
-     win['ads']['prependChild'] = prependChild
+     function noop(){}
 
      function isNode(dom){
          if (typeof dom === 'object'){
@@ -135,7 +127,97 @@
         return parent
      }
 
+    function myLogger(id){
+        id = id || 'ADSLogWindow'
+        var logWindow = null
+        var createWindow = function(width, height){
+            width = width || 200
+            height = height || 200
+            let browserWindowSize = ads.getBrowserWindowSize()
+            // var top = ((browserWindowSize.height - height) / 2) || 0
+            // var left = ((browserWindowSize.width - width) / 2) || 0
+            var top = 0
+            var left = browserWindowSize.width - width - 2
+            logWindow = doc.createElement('ul')
+            logWindow.setAttribute('class', 'log_hook')
+            logWindow.style.position = 'absolute'
+            logWindow.style.top = top+'px'
+            logWindow.style.left = left+'px'
+            logWindow.style.width = width + 'px'
+            logWindow.style.height = height + 'px'
+            logWindow.style.overflow = 'scroll'
 
+            logWindow.style.padding = 0
+            logWindow.style.margin = 0
+            logWindow.style.border = '1px solid black'
+            logWindow.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+            logWindow.style.listStyle = 'none'
+            logWindow.style.font = '10px/10px Verdana, Tahoma, Sans'
+
+            doc.body.appendChild(logWindow)
+        }
+
+        this.writeRaw = function(message){
+            if (!logWindow) createWindow()
+            var li = document.createElement('li')
+            li.style.padding = '2px'
+            li.style.border = 0
+            li.style.borderBottom = '1px dotted black'
+            li.style.margin = '0'
+            li.style.color = '#fff'
+            li.style.font = '9px/9px Verdana, Tahoma, Sans'
+
+            if (!message){
+                li.appendChild(doc.createTextNode('Message was undefined'))
+            }else if (typeof li.innerHTML !== 'undefined'){
+                li.innerHTML = message
+                
+            }else {
+                li.appendChild(doc.createTextNode(message))
+            }
+            logWindow.appendChild(li)
+            return true
+        }
+    }
+
+    myLogger.prototype = {
+        write: function(message){
+            if (!message) return this.writeRaw('ADS.log: null message')
+            if (typeof message != 'string'){
+                if (message.toString) return this.writeRaw(message.toString())
+                return this.writeRaw(typeof message)
+            }
+
+            message = message.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            return this.writeRaw(message)
+        },
+
+        header: function(message){
+            message = '<span style="color:white;background-color:red;font-weight:bold;padding:0px 5px;">' + message + '</span>'
+            return this.writeRaw(message)
+        }
+    }
+
+    function getBrowserWindowSize(){
+        var de = doc.documentElement
+        return {
+            width: win.innerWidth || de.clientWidth || document.body.clientWidth,
+            height: win.innerHeight || de.clientHeight || document.body.clientHeight
+        }
+    }
+
+
+    win['ads']['isCompatible'] = isCompatible
+    win['ads']['isNode'] = isNode
+    win['ads']['$'] = $
+    win['ads']['addEvent'] = addEvent
+    win['ads']['removeEvent'] = removeEvent
+    win['ads']['toggleDisplay'] = toggleDisplay
+    win['ads']['insertAfter'] = insertAfter
+    win['ads']['removeChildren'] = removeChildren
+    win['ads']['prependChild'] = prependChild
+    win['ads']['log'] = new myLogger()
+    win['ads']['getBrowserWindowSize'] = getBrowserWindowSize
 
  })(window, document)
 
