@@ -14,6 +14,7 @@
      win['ads']['insertAfter'] = insertAfter
      win['ads']['removeChildren'] = removeChildren
      win['ads']['prependChild'] = prependChild
+     win['ads']['log'] = new myLogger()
 
      function isNode(dom){
          if (typeof dom === 'object'){
@@ -135,6 +136,21 @@
         return parent
      }
 
+     function myLogger(id){
+         id = id || 'ADSLogWindow'
+         var logWindow = null
+         var createWindow = function(){}
+         this.writeRaw = function(message){}
+     }
+
+     myLogger.prototype = {
+         write: function(message){
+
+         },
+         header: function(message){
+
+         }
+     }
 
 
  })(window, document)
