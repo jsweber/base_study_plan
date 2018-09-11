@@ -5,6 +5,21 @@
  (function(win, doc){
      if (!win.ads){ win.ads = {} }
 
+     var node = {
+        ELEMENT_NODE :1,
+        ATTRIBUTE_NODE : 2,
+        TEXT_NODE: 3,
+        CDATA_SECTION_NODE: 4,
+        ENTITY_REFERENCE_NODE: 5,
+        ENTITY_NODE: 6,
+        PROCESSING_INSTRUCTION_NODE: 7,
+        COMMENT_NODE: 8,
+        DOCUMENT_NODE: 9,
+        DOCUMENT_TYPE_NODE: 10,
+        DOCUMENT_FRAGMENT_NODE: 11,
+        NOTATION_NODE: 12
+    }
+
      function noop(){}
 
      function isNode(dom){
@@ -205,21 +220,42 @@
             height: win.innerHeight || de.clientHeight || document.body.clientHeight
         }
     }
+    /**
+     * ads.domWalk(document.body, function(depth, resultFromParent){
+            console.log(`parent nodeName: ${this.nodeName}, depth: ${depth}, from parent: ${resultFromParent}`)
+            return this.nodeName
+        }, 1, 'body')
+     * 
+    */
+    function domWalk(node, nodeHandler, depth, returnFromParent){
+        var root = node || doc.body,
+        returnFromParent = nodeHandler.call(root, depth++, returnFromParent),
+        firstNode = root.firstChild
 
-    var node = {
-        ELEMENT_NODE :1,
-        ATTRIBUTE_NODE : 2,
-        TEXT_NODE: 3,
-        CDATA_SECTION_NODE: 4,
-        ENTITY_REFERENCE_NODE: 5,
-        ENTITY_NODE: 6,
-        PROCESSING_INSTRUCTION_NODE: 7,
-        COMMENT_NODE: 8,
-        DOCUMENT_NODE: 9,
-        DOCUMENT_TYPE_NODE: 10,
-        DOCUMENT_FRAGMENT_NODE: 11,
-        NOTATION_NODE: 12
+        while(firstNode){
+            domWalk(firstNode, nodeHandler, depth, returnFromParent)
+            firstNode = firstNode.nextSibling
+        }
     }
+
+    function domAttrWalk(node, attrHandler, nodeHandler, depth, returnFromParent){
+        var root = node || doc.body,
+        returnFromParent = nodeHandler.call(root, depth++, returnFromParent),
+        attrs = root.attributes,
+        firstNode = root.firstChild
+        if (attrs && attrs.length > 0){
+            //原版的实现递归太多了，其实对于属性节点的迭代可以放在循环一级直接处理
+            for (var i = 0; i < attrs.length; i++){
+                attrHandler.call(root, attrs[i], depth, returnFromParent)
+            }
+        }
+
+        while(firstNode){
+            domAttrWalk(firstNode, attrHandler, nodeHandler, depth, returnFromParent)
+            firstNode = firstNode.nextSibling
+        }
+    }
+    
 
 
     win['ads']['isCompatible'] = isCompatible
@@ -234,6 +270,8 @@
     win['ads']['log'] = new myLogger()
     win['ads']['getBrowserWindowSize'] = getBrowserWindowSize
     win['ads']['node'] = node
+    win['ads']['domWalk'] = domWalk
+    win['ads']['domAttrWalk'] = domAttrWalk
 
  })(window, document)
 
