@@ -1,5 +1,5 @@
 
-* 1.DOM中的继承
+<h3>DOM中的继承</h3>
 * 
 * Node -> Element -> HTMLElement
 * 
@@ -14,7 +14,7 @@
 * 它的属性和方法：href, name, rel, accessKey, tabindex, blur, focus ...
 
 
- 一·NODE类
+<h3>一·NODE类</h3>
 
 * 2.nodeType,nodeName,nodeValue与Node常量
 * 
@@ -59,14 +59,14 @@
 * cloneNode = sourceNode.cloneNode(true) //方法克隆所有属性以及它们的值。如果您需要克隆所有后代，请把 deep 参数设置 true，否则设置为 false。
 
 
-二·核心Element类
+<h3>二·核心Element类</h3>
 
 * ELment类继承Node所有的属性和方法，同时为了便于操作节点属性和查找子element对象的方法
 * element.getAttribute('href')
 * element.setAttribute('href', 'www.baodu.com')
 * element.removeAttribute('href)
 
-三·核心Document类
+<h3>三·核心Document对象</h3>
 * 注意Document继承Node，不是Element，getDocumentByclassName方法不在核心doc类中，因为它不适用xml
 * document.documentElement => 根元素html
 * document.body => body
@@ -80,3 +80,36 @@
 * createEntityReference()
 * createProcessingInstruction()
 * createTextNode(str)
+
+<h3>四·DOM HTML</h3>
+* < head > -> HTMLHeadElement
+* < body > -> HTMLBodyELement
+* < p > -> HTMLParagraphElement
+* < ul > -> HTMLULlistElement
+* < li > -> HTMLLIElement
+* ....
+<p>
+document 实际上是HTMLDocument的一个实例
+HTMLDocument从核心Document对象上继承了所有成员，还自己添加了一些：
+title: <title>中的字符串
+referrer: 包含链接到当前页面的前一个页面的url
+domain: 包含当前站点的域名
+url: 当前页面地址
+images: img集合
+links: link标签集合
+forms: 。。。
+anchors: a标签集合
+cookie: cookie信息
+还有一些方法：
+open打开一个文档
+close关闭当前文档
+write写入文档
+writeln写入文档和一个换行符
+</p>
+<code>
+    var newDoc = document.open('text/html')
+    newDoc.write('< p>hello</ p>')
+    newDoc.close()
+</code>
+
+
