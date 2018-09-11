@@ -6,5 +6,5 @@
 
 <p>设计模式内容参照《JavaScript设计模式与开发实践》</p>
 <p>算法内容参照《算法》第四版</p>
-<p>dom内容操作《JavaScript高级程序设计》</p>
+<p>dom内容操作《JavaScript.DOM高级程序设计》</p>
 <p>框架学习以vue为原型</p>
