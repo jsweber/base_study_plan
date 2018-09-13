@@ -198,5 +198,128 @@ function example2(){
     player3.die()
     player4.die()
 }
-example2()
+// example2()
+//购物案例
+function example3(){
+    let colorSelect = document.getElementById('colorSelect')
+    let numberInput = document.getElementById('numberInput')
+    let colorInfo = document.getElementById('colorInfo')
+    let numberInfo = document.getElementById('numberInfo')
+    let nextBtn = document.getElementById('nextBtn')
+
+    let goods = {
+        red: 3,
+        blue: 6
+    }
+
+    colorSelect.onchange = function(){
+        let color = this.value
+        let number = numberInput.value
+        let stock = goods[color]
+
+        colorInfo.innerHTML = color
+
+        if (!color){
+            nextBtn.disabled = true
+            nextBtn.innerHTML = '请选择颜色'
+            return
+        }
+
+        if (!number){
+            nextBtn.disabled = true
+            nextBtn.innerHTML = '请输入购买数量'
+            return
+        }
+
+        if (!number && number > 0){
+            nextBtn.disabled = true
+            nextBtn.innerHTML = '请输入购买数量'
+            return
+        }
+
+        if (number > stock){
+            nextBtn.disabled = true
+            nextBtn.innerHTML = '库存不足'
+            return
+        }
+
+        nextBtn.disabled = false
+        nextBtn.innerHTML = '放入购物车'
+    }
+
+    numberInput.onchange = function(){
+        //类似上面
+    }
+
+}
+//上面的代码不好维护，当再加一个选择内存的选项时，需要更改的代码会非常多
+function example4(){
+    let goods = {
+        'red|32G': 3,
+        'red|16G': 0,
+        'blue|32G': 1,
+        'blue|16G': 6
+    }
+    let colorSelect = document.getElementById('colorSelect')
+    let memorySelect = document.getElementById('memorySelect')
+    let numberInput = document.getElementById('numberInput')
+    let colorInfo = document.getElementById('colorInfo')
+    let memoryInfo = document.getElementById('memoryInfo')
+    let numberInfo = document.getElementById('numberInfo')
+    let nextBtn = document.getElementById('nextBtn')
+
+    let mediator = (function(){
+
+        return {
+            changed(obj){
+                let color = colorSelect.value
+                let memory = memorySelect.value
+                let num = numberInput.value
+                let stock = goods[color + '|' + memory]
+
+                if (obj == colorSelect){
+                    colorInfo.innerHTML = color
+                }else if (obj == memorySelect){
+                    memoryInfo.innerHTML = memory
+                }else if (obj == numberInput){
+                    numberInfo.innerHTML = num
+                }
+
+                if (!color){
+                    nextBtn.disabled = true
+                    nextBtn.innerHTML = '请选择颜色'
+                    return
+                }
+        
+                if (!memory){
+                    nextBtn.disabled = true
+                    nextBtn.innerHTML = '请选择内存'
+                    return
+                }
+        
+                if (!num && num > 0){
+                    nextBtn.disabled = true
+                    nextBtn.innerHTML = '请输入购买数量'
+                    return
+                }
+        
+                if (num > stock){
+                    nextBtn.disabled = true
+                    nextBtn.innerHTML = '库存不足'
+                    return
+                }
+
+                nextBtn.disabled = false
+                nextBtn.innerHTML = '放入购物车'
+            }
+        }
+    })()
+
+    colorSelect.onchange = function(){
+        mediator.changed(this)
+    }
+
+
+}
+//中介者模式经常导致难以维护的中介者产生，所以注意不要过度设计
 

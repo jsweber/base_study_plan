@@ -1,0 +1,32 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>中介者模式</title>
+    <link rel="stylesheet" href="../算法/common.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    选择颜色：
+    <select id="colorSelect">
+        <option value="">请选择</option>
+        <option value="red">蓝色</option>
+        <option value="blue">红色</option>
+    </select>
+
+    输入购买数量：
+    <input type="text" id="numberInput">
+
+    您选择的颜色：<div id="colorInfo"></div> 
+    您输入的数量：<div id="numberInfo"></div>
+
+    <button id="nextBtn" disabled="true">请选择购买颜色和数量</button>
+
+<script src='./中介者模式.js'></script>
+<script>
+    example3()
+</script>
+</body>
+</html>
