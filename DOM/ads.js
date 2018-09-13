@@ -255,6 +255,26 @@
             firstNode = firstNode.nextSibling
         }
     }
+
+    if (!String.prototype.repeat){
+        String.prototype.repeat = function(l){
+            if (typeof l !== 'number') throw 'repeat param type is number'
+            return new Array(l+1).join(this)
+        }
+    }
+
+    if (!String.prototype.trim){
+        String.prototype.trim = function(){
+            return this.replace(/^\s+|\s+$/g, '')
+        }
+    }
+ 
+    function camelize(s){
+        return s.replace(/-(\w)/g, function(strMatch, p1){
+            console.log(strMatch, p1) //camelize('hello-world')  -> -w , w
+            return p1.toUpperCase()
+        })
+    }
     
 
 
@@ -272,6 +292,7 @@
     win['ads']['node'] = node
     win['ads']['domWalk'] = domWalk
     win['ads']['domAttrWalk'] = domAttrWalk
+    win['ads']['camelize'] = camelize
 
  })(window, document)
 
