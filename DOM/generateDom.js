@@ -23,7 +23,25 @@
     newVariables = ''
 
     function generate(strHTML, strRoot){
+        var domRoot = document.createElement('div')
+        domRoot.innerHTML = strHTML
 
+        domCode = '',
+        nodeNameCounters = [],
+        requireVariable = '',
+        newVariables = ''
+
+        let node = domRoot.firstChild
+        while(node){
+            ads.domWalk(node, processNode, 0, strRoot)
+            node = node.nextSibling
+        }
+
+        domCode = '/* requireVariable in this code \n' + requireVariable + '*/\n\n'
+        + domCode + '\n\n'
+        + '/* objects in this code\n' + newVariables + '*/\n\n'
+
+        return domCode
     }
 
     function processAttribute(tabCount, refParent){
