@@ -246,14 +246,14 @@
         if (attrs && attrs.length > 0){
             //原版的实现递归太多了，其实对于属性节点的迭代可以放在循环一级直接处理
             for (var i = 0; i < attrs.length; i++){
-                attrHandler.call(root, attrs[i], depth, returnFromParent)
+                attrHandler.call(attrs[i], depth, returnFromParent)
             }
         }
-
-        while(firstNode){
-            domAttrWalk(firstNode, attrHandler, nodeHandler, depth, returnFromParent)
-            firstNode = firstNode.nextSibling
-        }
+        //虽然原版有下面的内容，但是我自己的实现方式不需要
+        // while(firstNode){
+        //     domAttrWalk(firstNode, attrHandler, nodeHandler, depth, returnFromParent)
+        //     firstNode = firstNode.nextSibling
+        // }
     }
 
     if (!String.prototype.repeat){
@@ -293,6 +293,7 @@
     win['ads']['domWalk'] = domWalk
     win['ads']['domAttrWalk'] = domAttrWalk
     win['ads']['camelize'] = camelize
+    win['ads']['noop'] = noop
 
  })(window, document)
 
