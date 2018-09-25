@@ -275,6 +275,24 @@
             return p1.toUpperCase()
         })
     }
+
+    function stopPropagation(eventObj){
+        eventObj = eventObj || getEventObject(event)
+        if (eventObj.stopPropagation){
+            event.stopPropagation()
+        }else {
+            eventObj.cancelBubble = true
+        }
+    }
+
+    function preventDefault(eventObj){
+        eventObj = eventObj || getEventObject(event)
+        if (eventObj.preventDefault){
+            eventObj.preventDefault()
+        }else {
+            eventObj.returnValue = false
+        }
+    }
     
 
 
@@ -294,6 +312,8 @@
     win['ads']['domAttrWalk'] = domAttrWalk
     win['ads']['camelize'] = camelize
     win['ads']['noop'] = noop
+    win['ads']['stopPropagation'] = stopPropagation
+    win['ads']['preventDefault'] = preventDefault
 
  })(window, document)
 
