@@ -52,6 +52,22 @@ function sortBy(property){
     }
 }
 
+//让函数只接受一个参数
+const unary = fn => fn.length === 1 ? fn : arg => fn(arg)
 
+//只让函数执行一次
+const once = function(fn){
+    let done = false
+    return function(){
+        return done ? undefined : (done = true, fn.apply(this, arguments))
+    }
+}
 
+//让函数带有记忆功能
+function memoized(fn){
+    let store = {}
+    return function(param){
+        return store[param] || (store[param]=fn(param))
+    }
+}
 
