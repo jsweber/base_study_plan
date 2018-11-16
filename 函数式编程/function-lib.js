@@ -71,3 +71,53 @@ function memoized(fn){
     }
 }
 
+function curry(fn){
+    if (typeof fn !== 'function'){
+        throw 'param should function'
+    }
+    return function curried(...args){
+        if (args.length < fn.length){
+            return function(){
+                return curried.apply(null, args.concat([].slice.call(arguments)))
+            }
+        }else {
+            return fn.apply(null, args)
+        }
+    }
+}
+
+function partial(fn, ...args){
+
+    return function(...fullArgs){
+        let arg = 0
+        for (let i = 0; i < args.length && arg < fullArgs.length; i++){
+            if (args[i] === undefined){
+                //把args中的占位undefined换成第二次传的参数
+                args[i] = fullArgs[arg++]
+            }
+        }
+        return fn.apply(null, args)
+    }
+}
+
+//test
+function testCurry(){
+    //测试字符串数组中有没有数字
+    let testArr = ['num1', 'hello']
+    let hasNum = curry(function(p, s){
+        if (p.test(s)){
+            return true
+        }
+        return false
+    })(/\d+/)
+
+    let filterNumStr = curry(function(fn, arr){
+        return arr.filter(fn)
+    })(hasNum)
+
+    console.log(filterNumStr(testArr))//['num1']
+
+    t = partial(setTimeout, undefined, 1000)
+    t(function(){console.log(1)})
+}
+
