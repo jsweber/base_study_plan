@@ -1,3 +1,5 @@
+import { reduce } from "./array-function";
+
 /**
  * 函数式编程练习用封装
  */
@@ -99,6 +101,12 @@ function partial(fn, ...args){
         return fn.apply(null, args)
     }
 }
+//compose返回的函数只接受一个参数，所以传入的函数需要经过curry/partial处理下
+function compose(...fns){
+    return function(value){
+        return reduce(fns.reverse(), (acc, fn) => fn(acc), value)
+    }
+}
 
 //test
 function testCurry(){
@@ -119,5 +127,49 @@ function testCurry(){
 
     t = partial(setTimeout, undefined, 1000)
     t(function(){console.log(1)})
+}
+
+//练习
+function memorize2(fn){
+    let store = {}
+    return function(...param){
+        return store[param.toString()] || (store[param.toString()] = fn.apply(this, param))
+    }
+}
+
+function once2(fn){
+    let hasDone = false
+    return function(){
+        return hasDone ? undefined : (hasDone = true, fn.apply(this, arguments))
+    }
+}
+
+function curry2(fn){
+    if (typeof fn != 'function'){throw 'param should be func'}
+    return function c(...param1){
+        if (fn.length > param1.length){
+            return function(...param2){
+                let args = param1.concat(param2)
+                return c.apply(this, args)
+            }
+        }else {
+            return fn.apply(this, ...param1)
+        }
+    }
+}
+
+
+function partial2(fn, ...param1){
+    if (typeof fn != 'function'){throw 'param should be func'}
+
+    return function(...param2){
+        let idx = 0
+        for (let i = 0; i < param1.length && idx < param2.length; i++){
+            if (param1[i] == undefined){
+                param1[i] = param2[idx++]
+            }
+        }
+        return fn.apply(this, param1)
+    }
 }
 

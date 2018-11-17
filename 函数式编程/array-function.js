@@ -23,7 +23,7 @@ export function concatAll(arr){
 }
 
 export function reduce(arr, fn, init){
-    let acc,
+    let acc
     if ( init === undefined){
         acc = arr[0]
         for (let i = 1; i < arr.length; i++){
