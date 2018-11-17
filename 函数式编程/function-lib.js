@@ -108,6 +108,17 @@ function compose(...fns){
     }
 }
 
+function pipe(...fns){
+    return function(value){
+        return reduce(fns, (acc, fn)=> fn(acc), value)
+    }
+}
+
+function identity(v){
+    console.log(v)
+    return v
+}
+
 //test
 function testCurry(){
     //测试字符串数组中有没有数字
