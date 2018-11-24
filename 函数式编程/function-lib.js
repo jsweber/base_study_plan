@@ -129,7 +129,7 @@ Container.of = function(value){
      //of 接口只是为了方便返回container ， 拥有of的函子也叫做pointed函子
     return new Container(value)
 }
-
+//函子的map会遍历函子（即js中的对象）的每一个属性
 Container.prototype.map = function(fn){
     return Container.of(fn(this.value))
 }
