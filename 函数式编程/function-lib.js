@@ -119,6 +119,92 @@ function identity(v){
     return v
 }
 
+//函子是带有值的容器
+//带有chain的Pointed函子也叫Monad函子
+var Container = function(value){
+    this.value = value
+}
+
+Container.of = function(value){
+     //of 接口只是为了方便返回container ， 拥有of的函子也叫做pointed函子
+    return new Container(value)
+}
+
+Container.prototype.map = function(fn){
+    return Container.of(fn(this.value))
+}
+//函子的具体应用
+var Maybe = function(value){
+    this.value = value
+}
+
+Maybe.of = function(value){
+    return new Maybe(value)
+}
+
+Maybe.prototype.nothing = function(){
+    return this.value === null || this.value === undefined
+}
+
+Maybe.prototype.map = function(fn){
+    return this.nothing() ? Maybe.of(null) : Maybe.of(fn(this.value))
+}
+
+Maybe.prototype.join = function(){
+    return this.nothing() ? Maybe.of(null) : this.value
+}
+
+Maybe.prototype.chain = function(fn){
+    return this.map(fn).join()
+}
+
+//应用，错误处理，即使参入null和undefined也能正常运行
+Maybe.of('may').map(toUpperCase).map((v) => 'Mrs '+ v)
+
+//另一个应用
+var Nothing = function(v){
+    this.value = v
+}
+
+Nothing.of = function(value){
+    return new Nothing(value)
+}
+
+Nothing.prototype.map = function(f){
+    return this//为了保留错误信息，这样就不会像Maybe一样只是返回null
+}
+
+var Some = function(v){
+    this.value = v
+}
+
+Some.of = function(v){
+    return new Some(v)
+}
+
+Some.prototype.map = function(fn){
+    return Some.of(fn(this.value))
+}
+
+var Either = {
+    some: Some,
+    nothing: Nothing
+}
+
+let reqTest = function(type){
+    let resp = {}
+    try{
+        resp = Some.of(Api.fetch(type).body)//成功的话return {code: 200, msg: 'ok'}
+    }catch(e){
+        resp = Nothing.of({code: 500, msg: 'request error'})
+    }
+    return resp
+}
+
+reqTest('unknown').map(x => x.msg)
+
+
+
 //test
 function testCurry(){
     //测试字符串数组中有没有数字
