@@ -79,6 +79,7 @@ function curry(fn){
     }
     return function curried(...args){
         if (args.length < fn.length){
+            //参数还没有传够，所有返回一个匿名函数
             return function(){
                 return curried.apply(null, args.concat([].slice.call(arguments)))
             }
