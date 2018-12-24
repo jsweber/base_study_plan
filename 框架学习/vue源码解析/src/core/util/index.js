@@ -3,7 +3,7 @@ export const noop = v => v
 
 export warn = noop
 
-export isDef = noop
+export isDef = o=> (o !==null && 0 !== undefined)
 
 export isUndef = noop
 
