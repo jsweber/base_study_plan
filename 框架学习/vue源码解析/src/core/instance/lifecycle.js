@@ -35,7 +35,9 @@ export function lifecycleMixin(Vue){
             //这样就能判断父组件是高阶组件了？
             //ans: 对于_vnode和$vnode的理解在core/instance/render.js的line19和line22
             //vm._vnode = null // the root of the child tree
+
             //_vnode其实就是组件的根虚拟节点；$vnode其实就是父节点
+            
             //vm.$parent是在initLifecycle方法中找到的，非抽象父节点
             //const parentVnode = vm.$vnode = options._parentVnode // the placeholder node in parent tree
             
