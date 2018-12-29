@@ -1,3 +1,4 @@
+//https://juejin.im/post/5c233a8ee51d450d5a01b712
 //Promise 需要同步捕获，所以try catch要包裹回调
 
 function Promise(fn){
