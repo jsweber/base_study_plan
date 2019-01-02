@@ -23,7 +23,7 @@ function repeat3(str, n){
             break
         }
         str += str
-        n = n>>1
+        n = n>>1// 2>>1=1解释：2除以2等于1
     }
     return total
 }
@@ -118,3 +118,97 @@ function truncate(str, length, truncation){
     length = length || 30
     return str.length > length ? str.slice(0, length - truncation.length) + truncation : String(str)
 }
+//转换成驼峰形式
+//a-b-c | a_b_c => aBC
+function camelize(target){
+    if (!~target.indexOf('-') && !~target.indexOf('_') ) return target
+    return target.replace(/[-_][^-_]/g, function(match){
+        return match.charAt(1).toUpperCase()
+    })
+}
+
+//转化成下划线风格
+/*我的实现，和下面书上的实现对比*/
+function underscoredByMine(target){
+    return target.replace(/[-_]/g,  '').replace(/([a-z])([A-Z])/g, function(match){
+        return match.charAt(0) + '_' + match.charAt(1).toLowerCase()
+    })
+}
+
+function underscoredByBook(target){
+    return target.replace(/([a-z\d])([A-Z])/g, '$1_$2').replace(/\-/g, '_').toLowerCase()
+}
+
+var underscored = underscoredByBook
+
+//css风格，即-号连接
+function dasherizeByMine(target){
+    return target.replace(/([a-z\d])([A-Z])/g, '$1-$2').replace(/_/g, '-').toLowerCase()
+}
+//by book
+function dasherize(target){
+    return underscored(target).replace(/_/g, '-')
+}
+
+//首字母大写
+function capitalizeByMine(target){
+    return target.charAt(0).toUpperCase() + target.slice(1)
+}
+//by book
+function capitalize(target){
+    return target.charAt(0).toUpperCase() + target.slice(1).toLowerCase()
+}
+
+//by book
+//移除字符串中的html标签，保留标签中的文本文件
+//这里和书上不同，因为书上是把正则放全局，但是我想闭包，但是又不想用函数自执行浪费一次执行（不用此函数的情况下），所以这里用了懒执行
+//stripTags('<div onclick="function">hello<p class="red"> world</p></div>')
+var stripTags = function(target){
+    var flag = /<\w+\s+("[^"]*"|'[^']*'|[^>])+?>|<\/\w+>/ig
+    stripTags = function(t){
+        return String(t || '').replace(flag, '')
+    }
+    return stripTags(target)
+}
+
+//去除script脚本，需要比stripTags先执行
+function stripScriptByMine(target){
+    return (target || '').replace(/<script>(\s|\S)+?<\/script>/img, '')
+}
+
+//by book
+//stripScript('<div>hello<script>cosnole.log</script></div>')
+function stripScript(target){
+    return String(target || '').replace(/<script[^>]*?>([\s\S]*?)<\/script>/img, '')
+}
+
+//escapeHTML和unescapeHTML解析的顺序和对应的内容都是反的
+function escapeHTML(target){
+    return target.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+}
+
+function unescapeHTML(target){
+    return target.replace(/&#39;/g, '\'').replace(/&quot;/g, '"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&')
+}
+//escapeHTMLByDom("<div>hello<script>cosnole.log</script></div>")
+//=> "&lt;div&gt;hello&lt;script&gt;cosnole.log&lt;/script&gt;&lt;/div&gt;"
+function escapeHTMLByDom(target){
+    var div = document.createElement('div')
+    div.innerText = target
+    return div.innerHTML
+}
+//unescapeHTMLByDom("&lt;div&gt;hello&lt;script&gt;cosnole.log&lt;/script&gt;&lt;/div&gt;")
+//=> "<div>hello<script>cosnole.log</script></div>"
+function unescapeHTMLByDom(target){
+    var div = document.createElement('div')
+    div.innerHTML = target
+    return div.innerText
+}
+
+//把正则表达式的关键词都加\
+function escapeRegExp(target){
+    return target.replace(/([-.*+?^${}()|[\]\/\\])/g, '\\$1')
+}
+
+
+
