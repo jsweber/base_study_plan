@@ -1,0 +1,28 @@
+{
+  "name": "base_study_plan",
+  "version": "0.0.1",
+  "description": "帮助自己学习",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsweber/base_study_plan.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "jsweber",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsweber/base_study_plan/issues"
+  },
+  "homepage": "https://github.com/jsweber/base_study_plan#readme",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
+}
