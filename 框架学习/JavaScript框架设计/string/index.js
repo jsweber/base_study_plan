@@ -211,4 +211,12 @@ function escapeRegExp(target){
 }
 
 
+module.exports = {
+    stripScript,
+    escapeHTML,
+    unescapeHTML,
+    escapeHTMLByDom,
+    unescapeHTMLByDom,
+    escapeRegExp
+}
 
