@@ -210,13 +210,54 @@ function escapeRegExp(target){
     return target.replace(/([-.*+?^${}()|[\]\/\\])/g, '\\$1')
 }
 
+//pad('50', 5) => "00050"
+function pad(target, n){
+    var zero = new Array(n).join('0')
+    var str = zero + target 
+    return str.substr(-n)
+}
+
+function padDirection(target, n, filling, right, radix){
+    var num = target.toString(radix || 10),
+    filling = filling || '0'
+
+    while(num.length < n){
+        if (right){
+            num += filling
+        }else {
+            num = filling + num
+        }
+    }
+    return num
+}
+
+function format(str, obj){
+    var args = [].slice.call(arguments, 1)
+    return str.replace(/\\?\#\{([^\{\}]+)\}/mg, function(match, name){
+        //\\?代表0或者1个斜杠
+        //match正则匹配的字符串，name为第一个分组字符串 e.g. #{name} name
+        if (match.charAt(0) == '\\'){
+            //代表用户输入\#{xxxx}，这种输入就是不需要匹配的里面的字段，只要去掉斜杠原样返回即可
+            return match.slice(1)
+        }else if (Number(name) >= 0){
+            return args[name]
+        }else if (obj && obj[name]){
+            return obj[name]
+        }
+        return ''
+    })
+}
+
 
 module.exports = {
+    format,
     stripScript,
     escapeHTML,
     unescapeHTML,
     escapeHTMLByDom,
     unescapeHTMLByDom,
-    escapeRegExp
+    escapeRegExp,
+    pad,
+    padDirection
 }
 
