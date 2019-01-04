@@ -1,4 +1,4 @@
-const {escapeHTML, unescapeHTML, pad, padDirection, format} = require('../../../框架学习/JavaScript框架设计/string/index')
+const {escapeHTML, unescapeHTML, pad, padDirection, format} = require('../../../src/框架学习/JavaScript框架设计/string/index')
 
 const html = '<div>hello</div>'
 const htmlEntity = '&lt;div&gt;hello&lt;/div&gt;'
