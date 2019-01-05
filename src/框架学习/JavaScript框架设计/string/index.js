@@ -195,6 +195,7 @@ function unescapeHTML(target){
 function escapeHTMLByDom(target){
     var div = document.createElement('div')
     div.innerText = target
+    div = null //释放dom对象
     return div.innerHTML
 }
 //unescapeHTMLByDom("&lt;div&gt;hello&lt;script&gt;cosnole.log&lt;/script&gt;&lt;/div&gt;")
@@ -202,6 +203,7 @@ function escapeHTMLByDom(target){
 function unescapeHTMLByDom(target){
     var div = document.createElement('div')
     div.innerHTML = target
+    div = null
     return div.innerText
 }
 
@@ -248,6 +250,35 @@ function format(str, obj){
     })
 }
 
+function stringLiteralize(source){
+    return '"' + source.replace(/\x5C/g, '\\\\').replace(/"/g, '\\"').replace(/\x0A/g, '\\n').replace(/\x09/g, '\\t').replace(/\x0D/g, '\\r') + '"'
+}
+//书上列了12种方法，挑选几种比较有意义的实现下
+function trim(str){
+    return str.replace(/^\s+|\s+$/g, '')
+}
+
+function trimFaster(str){
+    str = str.replace(/^\s+/, '')
+    for (var i =  str.length - 1; i >=0; i--){
+        if (/\S/.test(str.charAt(i))){
+            return str.slice(0, i+1)
+        }
+    }
+}
+//这里假设空格的ASCII码小于等于32
+//'\n'  10
+//'\t'   9
+//'\r'  13
+// '\f'  12
+// ' '    32
+function trimByCharCode(str){
+    var i = -1, len = str.length
+    var j = len-1
+    for (; str.charAt(++i) <= 32; ){}
+    for (; j > i && str.charAt(j) <= 32; j--){}
+    return str.slice(i, j+1)
+}
 
 module.exports = {
     format,
