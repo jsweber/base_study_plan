@@ -44,21 +44,52 @@ class BST{
     }
     //先序遍历
     //当前节点 -》左节点 -》 右节点
-    prevOrder(node, fn){
+    preOrder(node, fn){
         if(node != null && fn){
             fn(node)
-            this.prevOrder(node.left, fn)
-            this.prevOrder(node.right, fn)
+            this.preOrder(node.left, fn)
+            this.preOrder(node.right, fn)
         }
     }
     //后序遍历
     //左节点 -》 右节点 -》 当前节点
-    afterOrder(node, fn){
+    postOrder(node, fn){
         if(node != null && fn){
-            this.afterOrder(node.left, fn)
-            this.afterOrder(node.right, fn)
+            this.postOrder(node.left, fn)
+            this.postOrder(node.right, fn)
             fn(node)
         }
+    }
+
+    findMin(){
+        let cur = this.root
+        while(cur.left !== null){
+            cur = cur.left
+        }
+        return cur.data
+    }
+
+    findMax(){
+        let cur = this.root
+        while(cur.right !== null){
+            cur = cur.right
+        }
+        return cur.data
+    }
+
+    findNode(data){
+        let cur = this.root
+        while(cur !== null){
+            if (cur.data == data){
+                return cur
+            }
+            if (data < cur.data){
+                cur = cur.left
+            }else if (data > cur.data){
+                cur = cur.right
+            }
+        }
+        return null
     }
 }
 
@@ -71,10 +102,14 @@ bst.insert(1)
 bst.insert(99)
 bst.inOrder(bst.root, show)
 console.log('-----------------')
-bst.prevOrder(bst.root, show)
+bst.preOrder(bst.root, show)
 console.log('-----------------')
-bst.afterOrder(bst.root, show)
+bst.postOrder(bst.root, show)
 
 function show(node){
     console.log(node.data)
 }
+
+console.log('min', bst.findMin())
+console.log('max', bst.findMax())
+console.log('find', bst.findNode(10))
