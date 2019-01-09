@@ -195,6 +195,7 @@ function unescapeHTML(target){
 function escapeHTMLByDom(target){
     var div = document.createElement('div')
     div.innerText = target
+    div = null //释放dom对象
     return div.innerHTML
 }
 //unescapeHTMLByDom("&lt;div&gt;hello&lt;script&gt;cosnole.log&lt;/script&gt;&lt;/div&gt;")
@@ -202,6 +203,7 @@ function escapeHTMLByDom(target){
 function unescapeHTMLByDom(target){
     var div = document.createElement('div')
     div.innerHTML = target
+    div = null
     return div.innerText
 }
 
@@ -210,5 +212,83 @@ function escapeRegExp(target){
     return target.replace(/([-.*+?^${}()|[\]\/\\])/g, '\\$1')
 }
 
+//pad('50', 5) => "00050"
+function pad(target, n){
+    var zero = new Array(n).join('0')
+    var str = zero + target 
+    return str.substr(-n)
+}
 
+function padDirection(target, n, filling, right, radix){
+    var num = target.toString(radix || 10),
+    filling = filling || '0'
+
+    while(num.length < n){
+        if (right){
+            num += filling
+        }else {
+            num = filling + num
+        }
+    }
+    return num
+}
+
+function format(str, obj){
+    var args = [].slice.call(arguments, 1)
+    return str.replace(/\\?\#\{([^\{\}]+)\}/mg, function(match, name){
+        //\\?代表0或者1个斜杠
+        //match正则匹配的字符串，name为第一个分组字符串 e.g. #{name} name
+        if (match.charAt(0) == '\\'){
+            //代表用户输入\#{xxxx}，这种输入就是不需要匹配的里面的字段，只要去掉斜杠原样返回即可
+            return match.slice(1)
+        }else if (Number(name) >= 0){
+            return args[name]
+        }else if (obj && obj[name]){
+            return obj[name]
+        }
+        return ''
+    })
+}
+
+function stringLiteralize(source){
+    return '"' + source.replace(/\x5C/g, '\\\\').replace(/"/g, '\\"').replace(/\x0A/g, '\\n').replace(/\x09/g, '\\t').replace(/\x0D/g, '\\r') + '"'
+}
+//书上列了12种方法，挑选几种比较有意义的实现下
+function trim(str){
+    return str.replace(/^\s+|\s+$/g, '')
+}
+
+function trimFaster(str){
+    str = str.replace(/^\s+/, '')
+    for (var i =  str.length - 1; i >=0; i--){
+        if (/\S/.test(str.charAt(i))){
+            return str.slice(0, i+1)
+        }
+    }
+}
+//这里假设空格的ASCII码小于等于32
+//'\n'  10
+//'\t'   9
+//'\r'  13
+// '\f'  12
+// ' '    32
+function trimByCharCode(str){
+    var i = -1, len = str.length
+    var j = len-1
+    for (; str.charAt(++i) <= 32; ){}
+    for (; j > i && str.charAt(j) <= 32; j--){}
+    return str.slice(i, j+1)
+}
+
+module.exports = {
+    format,
+    stripScript,
+    escapeHTML,
+    unescapeHTML,
+    escapeHTMLByDom,
+    unescapeHTMLByDom,
+    escapeRegExp,
+    pad,
+    padDirection
+}
 

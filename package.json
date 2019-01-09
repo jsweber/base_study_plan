@@ -7,7 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --watch",
+    "test:all": "jest",
+    "test:change": "jest -o"
   },
   "repository": {
     "type": "git",
@@ -24,5 +26,18 @@
   "homepage": "https://github.com/jsweber/base_study_plan#readme",
   "devDependencies": {
     "jest": "^23.6.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "testMatch": [ "**/test/**/*.test.js?(x)" ],
+    "moduleDirectories": ["node_modules", "src"],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dev",
+      "/src/server"
+    ]
   }
 }
