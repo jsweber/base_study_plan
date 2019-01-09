@@ -91,6 +91,22 @@ class BST{
         }
         return null
     }
+
+    remove(data){
+        return this.removeNode(this.root, data)
+    }
+
+    removeNode(node, data){
+        if (!node) return null
+
+        if (node.data === data){
+
+        }else if (node.data > data){
+            
+        }else {
+
+        }
+    }
 }
 
 let bst = new BST()
