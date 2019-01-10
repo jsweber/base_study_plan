@@ -1,4 +1,4 @@
-const Node = require('./Node')
+const Node = require('./NodeWithCount')
 
 class BST{
     constructor(){
@@ -92,6 +92,12 @@ class BST{
         return null
     }
 
+    update(data){
+        let grade = this.findNode(data)
+        grade.count++
+        return grade
+    }
+
     remove(data){
         this.root = this.removeNode(this.root, data)
     }
@@ -129,27 +135,4 @@ class BST{
     }
 }
 
-let bst = new BST()
-bst.insert(10)
-bst.insert(7)
-bst.insert(12)
-bst.insert(8)
-bst.insert(1)
-bst.insert(99)
-bst.inOrder(bst.root, show)
-bst.remove(12)
-bst.remove(9)
-console.log('-----------------')
-bst.inOrder(bst.root, show)
-// console.log('-----------------')
-// bst.preOrder(bst.root, show)
-// console.log('-----------------')
-// bst.postOrder(bst.root, show)
-
-function show(node){
-    console.log(node.data)
-}
-
-// console.log('min', bst.findMin())
-// console.log('max', bst.findMax())
-// console.log('find', bst.findNode(10))
+module.exports = BST
