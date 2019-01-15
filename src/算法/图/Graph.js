@@ -3,7 +3,9 @@ class Graph{
     constructor(v){
         this.vertices = v
         this.edges = 0
+        this.edgeTo = []
         this.marked = [] //标记是否访问过
+        this.vertexList = []
         this.adj = []//邻接表
         for (let i = 0; i < this.vertices; i++){
             this.marked[i] = false
@@ -38,10 +40,27 @@ class Graph{
                 let w = this.adj[v][i]
                 if (!this.marked[w]){
                     this.marked[w] = true
+                    this.edgeTo[w] = v
                     queue.push(w)
                 }
             }
         }
+    }
+
+    pathTo(v){
+        let source = 0
+        let path = []
+        if (!this.hasPathTo(v)) return undefined
+
+        for (let i = v; i != source; i=this.edgeTo[i]){
+            path.push(i)
+        }
+        path.push(source)
+        return path
+    }
+
+    hasPathTo(v){
+        return this.marked[v]
     }
 
     showGraph(){
@@ -54,8 +73,30 @@ class Graph{
         }
     }
 
-    toString(){
+    topSort(){
+        let stack = []
+        let visited = []
+        for (let i = 0; i < this.vertices; i++){
+            visited[i] = false
+        }
 
+        for (let i = 0; i < stack.length; i++){
+            if(!visited[i]) this.topSortHelper(i, visited, stack)
+        }
+
+        for (let i = 0; i < stack.length; i++){
+            if (stack[i] !== undefined && !stack[i]) console.log(this.vertexList[stack[i]])
+        }
+    }
+
+    topSortHelper(v, visited, stack){
+        visited[v] = true
+        for (let ver of this.adj[v]){
+            if (!visited[ver]){
+                this.topSortHelper(ver, visited, stack)
+            }
+        }
+        stack.push(v)
     }
 }
 
@@ -72,3 +113,6 @@ g.addEdge(2, 4)
 g.bfs(0, function(v){
     console.log(v)
 })
+let paths = g.pathTo(4)
+console.log(paths)
+
