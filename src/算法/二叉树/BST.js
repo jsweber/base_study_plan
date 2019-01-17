@@ -1,4 +1,4 @@
-const Node = require('./Node')
+const Node = require('./NodeWithCount')
 
 class BST{
     constructor(){
@@ -61,16 +61,16 @@ class BST{
         }
     }
 
-    findMin(){
-        let cur = this.root
+    findMin(node){
+        let cur = node || this.root
         while(cur.left !== null){
             cur = cur.left
         }
         return cur.data
     }
 
-    findMax(){
-        let cur = this.root
+    findMax(node){
+        let cur = node || this.root
         while(cur.right !== null){
             cur = cur.right
         }
@@ -92,40 +92,47 @@ class BST{
         return null
     }
 
+    update(data){
+        let grade = this.findNode(data)
+        grade.count++
+        return grade
+    }
+
     remove(data){
-        return this.removeNode(this.root, data)
+        this.root = this.removeNode(this.root, data)
     }
 
     removeNode(node, data){
+        //删除最麻烦
+        //当删除节点为叶子节点时，直接给个null就行
+        //当只有一个子节点时，直接代替它的位子就行
+        //当有两个时有两种策略：
+        //一、找出左节点最大的代替删除的节点
+        //二、找出右节点最小的代替
+        //这里用得是策略二
         if (!node) return null
 
         if (node.data === data){
-
+            if( !node.left  && !node.right ){
+                return null
+            }else if (node.left && !node.right){
+                return node.left
+            }else if (node.right && !node.left){
+                return node.right
+            }else {
+                let tempNodeVal = this.findMin(node.right)
+                node.data = tempNodeVal
+                node.right = this.removeNode(node.right, tempNodeVal)
+                return node
+            }
         }else if (node.data > data){
-            
+            node.left = this.removeNode(node.left, data)
+            return node
         }else {
-
+            node.right = this.removeNode(node.right, data)
+            return node
         }
     }
 }
 
-let bst = new BST()
-bst.insert(10)
-bst.insert(7)
-bst.insert(12)
-bst.insert(8)
-bst.insert(1)
-bst.insert(99)
-bst.inOrder(bst.root, show)
-console.log('-----------------')
-bst.preOrder(bst.root, show)
-console.log('-----------------')
-bst.postOrder(bst.root, show)
-
-function show(node){
-    console.log(node.data)
-}
-
-console.log('min', bst.findMin())
-console.log('max', bst.findMax())
-console.log('find', bst.findNode(10))
+module.exports = BST
