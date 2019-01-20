@@ -1,118 +1,161 @@
-//图
+//https://cloud.tencent.com/developer/article/1147847
+//图算法，个人觉得比《算法JavaScript描述》这本书描述的好
+//图的主要内容：点，边，广度遍历，深度遍历， 最短路径，拓扑排序（只能应用于有向五环图）
 class Graph{
-    constructor(v){
-        this.vertices = v
-        this.edges = 0
-        this.edgeTo = []
-        this.marked = [] //标记是否访问过
-        this.vertexList = []
-        this.adj = []//邻接表
-        for (let i = 0; i < this.vertices; i++){
-            this.marked[i] = false
-            this.adj[i] = []
+    constructor(){
+        this.vertices = []
+        this.adjList = new Map()
+        this.time = 0 //记录访问使用时间，不重要
+    }
+
+    initialColor(){
+        let color = []
+        for (var i = 0; i < this.vertices.length; i++){
+            color[this.vertices[i]] = 'white'
         }
+        return color
+    }
+
+    addVertices(v){
+        this.vertices.push(v)
+        this.adjList.set(v, [])
     }
 
     addEdge(v, w){
-        this.adj[v].push(w)
-        this.adj[w].push(v)
-        this.edges++
+        let adjList = this.adjList
+        adjList.set(v, [...adjList.get(v), w])
+        adjList.set(w, [...adjList.get(w), v])
     }
-    //深度优先遍历
-    dfs(v, fn){
-        this.marked[v] = true
-        fn(v, this.adj[v])
-        for (let vet of this.adj[v]){
-            if (!this.marked[vet]){
-                this.dfs(vet, fn)
-            }
+
+    bfs(v, fn){
+        let queue = [],
+        color = this.initialColor(),
+        //d是你传入的顶点v距离每一个顶点的距离（这里的距离仅为边的数量）
+        //pred就是当前顶点沿着路径找到的前一个顶点是什么。没有就是null
+        d = {},
+        pred = {}
+
+        queue.push(v)
+
+        for (let i = 0; i < this.vertices.length; i++){
+            d[this.vertices[i]] = 0
+            pred[this.vertices[i]] = null
         }
-    }
-    //广度优先遍历
-    bfs(s, fn){
-        let queue = []
-        queue.push(s)
-        this.marked[s] = true
+
         while(queue.length > 0){
-            let v = queue.shift()
-            fn(v)
-            for (let i = 0; i < this.adj[v].length; i++){
-                let w = this.adj[v][i]
-                if (!this.marked[w]){
-                    this.marked[w] = true
-                    this.edgeTo[w] = v
+            let c = queue.shift(),
+            neighbors = this.adjList.get(c)
+            color[c] = 'grey'
+            
+            for (let i = 0; i < neighbors.length; i++){
+                let w = neighbors[i]
+                if (color[w] === 'white'){
+                    color[w] = 'grey'
+                    d[w] = d[c] + 1
+                    pred[w] = c
                     queue.push(w)
                 }
             }
+
+            color[c] = 'black'
+            fn && fn(c, neighbors)
+        }
+        return {
+            distances: d,
+            predecessors: pred
         }
     }
 
-    pathTo(v){
-        let source = 0
-        let path = []
-        if (!this.hasPathTo(v)) return undefined
-
-        for (let i = v; i != source; i=this.edgeTo[i]){
-            path.push(i)
+    dfs(){
+        //d发现一个顶点的所用的时间， f完全探索一个定点所用的时间， p前朔点
+        let color = this.initialColor(), d = {}, f = {}, p = {}
+        for (let i = 0; i < this.vertices.length; i++){
+            let v = this.vertices[i]
+            f[v] = 0
+            d[v] = 0
+            p[v] = null
         }
-        path.push(source)
-        return path
-    }
 
-    hasPathTo(v){
-        return this.marked[v]
-    }
-
-    showGraph(){
-        for(let i = 0; i < this.vertices; i++){
-            console.log(`${i} -> `)
-            for (let j = 0; j < this.adj[i].length; j++){
-                console.log(this.adj[i][j])
+        for (let i = 0; i < this.vertices.length; i++){
+            let v = this.vertices[i]
+            if (color[v] === 'white'){
+                this.dfsVisit(v, color, d, f, p)
             }
-            console.log('\n')
         }
+
+        return {
+            discovery:d,
+            finished:f,
+            predecessors:p
+        }
+    }
+
+    dfsVisit(u, color, d, f, p){
+        let neighbors = this.adjList.get(u)
+        color[u] = 'grep'
+        d[u] = ++this.time
+
+        for (let i = 0; i < neighbors.length; i++){
+            let w = neighbors[i]
+            if (color[w] === 'white'){
+                p[w] = u
+                this.dfsVisit(w, color, d, f, p)
+            }
+
+        }
+
+        f[u] = ++this.time
+        color[u] = 'black'
+    }
+    //最短路径
+    shortPath(fromV, disV){
+        let {predecessors} = this.bfs(disV)
+        // console.log(predecessors)
+        // console.log('---------------')
+        let stack = []
+        let count = 0, maxCount = 20//防止写出bug，调试等很久
+        for (let v = fromV; v !== disV && count < maxCount; v = predecessors[v]){
+            console.log(v)
+            stack.push(v)
+            count++
+        }
+
+        stack.push(disV)
+        // console.log('---------------')
+        return stack
     }
 
     topSort(){
-        let stack = []
-        let visited = []
-        for (let i = 0; i < this.vertices; i++){
-            visited[i] = false
-        }
-
-        for (let i = 0; i < stack.length; i++){
-            if(!visited[i]) this.topSortHelper(i, visited, stack)
-        }
-
-        for (let i = 0; i < stack.length; i++){
-            if (stack[i] !== undefined && !stack[i]) console.log(this.vertexList[stack[i]])
-        }
+        return this.dfs().predecessors
     }
 
-    topSortHelper(v, visited, stack){
-        visited[v] = true
-        for (let ver of this.adj[v]){
-            if (!visited[ver]){
-                this.topSortHelper(ver, visited, stack)
-            }
+    toString(){
+        for (let [key, value] of this.adjList.entries()){
+            console.log(`${key}: ${value.join()}`)
         }
-        stack.push(v)
     }
 }
 
-let g = new Graph(5)
-g.addEdge(0, 1)
-g.addEdge(0, 2)
-g.addEdge(1, 3)
-g.addEdge(2, 4)
-// g.showGraph()
-// g.dfs(0, function(v, adj){
-//     console.log(`${v} -> ${adj.join()}`)
-// })
+let g = new Graph()
+let verticesArray = ['A','B','C','D','E','F','G','H','I']
+for(var i = 0; i < verticesArray.length; i++) {
+    g.addVertices(verticesArray[i])
+}
 
-g.bfs(0, function(v){
-    console.log(v)
-})
-let paths = g.pathTo(4)
-console.log(paths)
+g.addEdge('A','B');
+g.addEdge('A','C');
+g.addEdge('A','D');
+g.addEdge('C','D');
+g.addEdge('C','G');
+g.addEdge('D','G');
+g.addEdge('D','H');
+g.addEdge('B','E');
+g.addEdge('B','F');
+g.addEdge('E','I');
+
+// g.toString()
+
+// console.log(g.bfs('A'))
+// console.log(g.dfs())
+console.log(g.shortPath('B', 'I'))
 
