@@ -13,7 +13,7 @@ class Compile{
     node2Fragment(el){
         let fragment = document.createDocumentFragment(), child
         while(child = el.firstChild){
-            fragment.appendChild(child)
+            fragment.appendChild(child)//相当于move firstChild to fragment; firstChild 包括text + node
         }
         return fragment
     }
@@ -22,7 +22,7 @@ class Compile{
         this.compileElement(this.$fragment)
     }
 
-    compileElement(el){
+    compileElement(fragment){
         //text和元素节点的统一入口
         let children = el.childNodes,
         self = this,
