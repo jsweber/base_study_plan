@@ -127,3 +127,36 @@ function union(target, arr){
     return unique(target.concat(arr))
 }
 
+//取交集
+function intersect(target, source){
+    return target.filter(c => {
+        return ~source.indexOf(c)
+    })
+}
+
+//取差级
+function diff(target, source){
+    let result = target.slice()
+
+    for (let i = 0; i < result.length; i++){
+        for (let j = 0; j < source.length; j++){
+            if (result[i] === source[j]){
+                result.splice(i, 1)
+                i--
+                break
+            }
+        }
+    }
+    
+    return result
+}
+
+function min(target){
+    return Math.min.apply(0, target)
+}
+
+function max(target){
+    return Math.max.apply(0, target)
+}
+
+
