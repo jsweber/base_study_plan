@@ -1,3 +1,5 @@
+//node监听key（vm中的响应数据）变化
+
 class Watcher{
     /**
      * new Watcher(vm, exp, function(v, ov){
@@ -41,6 +43,7 @@ class Watcher{
 
     get(){
         Dep.target = this
+        //这里执行的时候会触发相应属性的getter操作，请去看看Observer类的defineReactive方法
         let value = this.getter.call(this.vm, this.vm)//触发相应属性的get，然后把watch加到属性的dep里，注意每个属性都有自己的Dep实例
         Dep.target = null
         return value

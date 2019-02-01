@@ -13,7 +13,7 @@ class Dep{
     }
 
     depend(){
-        Dep.target.addDep(this)//这里的thi就是Watcher中的addDep的参数dep
+        Dep.target.addDep(this)//这里的this就是Watcher中的addDep的参数dep
     }
 
     addSub(s){
