@@ -27,9 +27,9 @@ class Observer{
             },
             set(v){
                 if (v === val) return
-
-                val = v //这里用闭包让val不会消失，同时get也是返回v，所以不存在data[key]为基本类型时复制无效的情况，因为本身值已经和val挂靠了
                 console.log(`new: ${v}; old: ${val}`)
+                val = v //这里用闭包让val不会消失
+                
                 childObj = observe(val) //如果给的是引用类型，则需要重新监听新值
                 dep.notify()
             }
