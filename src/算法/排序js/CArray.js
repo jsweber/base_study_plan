@@ -58,7 +58,7 @@ class CArray{
             }
         }
     }
-    //选中排序
+    //选择排序
     selectSort(){
         let min = 0, arr = this.dataStore, len = this.dataStore.length
         for (let i = 0; i < len - 1; i++){
@@ -86,29 +86,112 @@ class CArray{
             arr[j] = temp            
         }
     }
+
+    //shell排序
+    shellSort(){
+        let len = this.dataStore.length, n = 1, arr = this.dataStore
+        //动态gap的希尔排序
+        while(n < Math.floor(len / 3)){
+            n = n * 3 + 1
+        }
+
+        while(n > 0){
+            for (let i = n; i < len; i++){
+                for (let j = i; j >= n &&  arr[j - n] > arr[j]; j = j - n ){
+                    this.swap(arr, j - n, j)
+                }
+            }
+            n = (n-1) / 3
+        }
+       
+    }
+
+    //归并排序
+    mergeSort(){
+        if (this.dataStore.length < 2) return
+        let arr = this.dataStore, 
+        step = 1,
+        startLeft = 0,
+        startRight = 0,
+        len = arr.length
+
+        while(step < len){
+            startLeft = 0
+            startRight = step
+
+            while(startRight + step <= len){
+                this.mergeArr(arr, startLeft, startLeft + step, startRight, startRight + step)
+                startLeft = startRight + step
+                startRight = startLeft + step
+            }
+
+            if (startRight < len){
+                this.mergeArr(arr, startLeft, startLeft + step, startRight, len)
+            }
+            step *= 2
+        }
+
+    }
+
+    mergeArr(arr, startLeft, stopLeft, startRight, stopRight){
+        let leftArr = new Array(stopLeft - startLeft + 1)
+        let rightArr = new Array(stopRight - startRight + 1)
+
+        let k = startRight, i = 0
+        for ( i = 0; i < rightArr.length - 1; i++){
+            rightArr[i] = arr[k++]
+        }
+
+        k = startLeft
+        for (i = 0; i < leftArr.length - 1; i++){
+            leftArr[i] = arr[k++]
+        }
+
+        leftArr[leftArr.length - 1] = Infinity
+        rightArr[rightArr.length - 1] = Infinity
+
+        let n = 0, m = 0
+        for (i = startLeft; i < stopRight; i++){
+            if (leftArr[n] < rightArr[m]){
+                arr[i] = leftArr[n++]
+            }else {
+                arr[i] = rightArr[m++]
+            }
+        }
+    }
 }
 //test
-// let num = 10000
-// let ca = new CArray(num)
-// ca.setData()
-// let startTime = +new Date()
-// ca.bubbleSort()
-// console.log(+new Date() - startTime)
-
-// ca.setData()
-// startTime = +new Date()
-// ca.selectSort()
-// console.log(+new Date() - startTime)
-
-// ca.setData()
-// startTime = +new Date()
-// ca.insertSort()
-// console.log(+new Date() - startTime)
-
-let num = 10
+let num = 100000
 let ca = new CArray(num)
 ca.setData()
+let startTime = +new Date()
+ca.bubbleSort()
+console.log(+new Date() - startTime)
+
+ca.setData()
+startTime = +new Date()
+ca.selectSort()
+console.log(+new Date() - startTime)
+
+ca.setData()
+startTime = +new Date()
 ca.insertSort()
-ca.toString()
+console.log(+new Date() - startTime)
+
+ca.setData()
+startTime = +new Date()
+ca.shellSort()
+console.log(+new Date() - startTime)
+
+ca.setData()
+startTime = +new Date()
+ca.mergeSort()
+console.log(+new Date() - startTime)
+
+// let num = 10
+// let ca = new CArray(num)
+// ca.setData()
+// ca.mergeSort()
+// ca.toString()
 
 // module.exports = CArray
