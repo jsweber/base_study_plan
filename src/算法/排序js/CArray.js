@@ -159,34 +159,52 @@ class CArray{
             }
         }
     }
+    //快速排序
+    quickSort(arr){
+        if (arr.length === 0) return []
+        let len = arr.length,
+        smallArr = [],
+        bigArr = [],
+        qivot = arr[0]
+
+        for (let i = 1; i < len; i++){
+            if (qivot < arr[i]){
+                bigArr.push(arr[i])
+            }else {
+                smallArr.push(arr[i])
+            }
+        }
+
+        return this.quickSort(smallArr).concat(qivot, this.quickSort(bigArr))
+    }
 }
 //test
-let num = 100000
-let ca = new CArray(num)
-ca.setData()
-let startTime = +new Date()
-ca.bubbleSort()
-console.log(+new Date() - startTime)
+// let num = 100000
+// let ca = new CArray(num)
+// ca.setData()
+// let startTime = +new Date()
+// ca.bubbleSort()
+// console.log(+new Date() - startTime)
 
-ca.setData()
-startTime = +new Date()
-ca.selectSort()
-console.log(+new Date() - startTime)
+// ca.setData()
+// startTime = +new Date()
+// ca.selectSort()
+// console.log(+new Date() - startTime)
 
-ca.setData()
-startTime = +new Date()
-ca.insertSort()
-console.log(+new Date() - startTime)
+// ca.setData()
+// startTime = +new Date()
+// ca.insertSort()
+// console.log(+new Date() - startTime)
 
-ca.setData()
-startTime = +new Date()
-ca.shellSort()
-console.log(+new Date() - startTime)
+// ca.setData()
+// startTime = +new Date()
+// ca.shellSort()
+// console.log(+new Date() - startTime)
 
-ca.setData()
-startTime = +new Date()
-ca.mergeSort()
-console.log(+new Date() - startTime)
+// ca.setData()
+// startTime = +new Date()
+// ca.mergeSort()
+// console.log(+new Date() - startTime)
 
 // let num = 10
 // let ca = new CArray(num)
@@ -194,4 +212,10 @@ console.log(+new Date() - startTime)
 // ca.mergeSort()
 // ca.toString()
 
+let num = 100000
+let ca = new CArray(num)
+ca.setData()
+let startTIme = +new Date()
+ca.quickSort(ca.dataStore)
+console.log(+new Date() - startTIme)
 // module.exports = CArray
