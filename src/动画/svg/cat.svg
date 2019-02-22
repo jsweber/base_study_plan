@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG1.1//EN" "http://www.w3.org//Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="140" height="170" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="140" height="300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>Cat</title>
 <desc>stick figure of a cat</desc>
 <circle cx="70" cy="95" r="50" style="stroke:black; fill:none" />
@@ -19,4 +19,13 @@
 <!-- 鼻子 -->
 <path  d="M 75 90 L 65 90 A 5 10 0 0 0 75 90" style="stroke:black; fill:#ccc;" />
 <text x="60" y="165" style="font-family: sanns-serif; font-size: 14pt;" stroke="none" fill="black" >Cat</text>
+<g transform="translate(0, 180) skewX(-20)" fill="#ccc">
+    <switch>
+        <foreignObject x="50" y="20" width="100" height="100">
+            <body xmlns="http://www.w3.org/1999/xhtml">
+                <p>foreignObject in svg, svg内加xhtml</p>
+            </body>
+        </foreignObject>
+    </switch>
+</g>
 </svg>
