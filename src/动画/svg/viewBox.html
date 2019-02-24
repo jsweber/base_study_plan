@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        svg{border:1px solid #ccc;}
+    </style>
+</head>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="200" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin meet">
+        <defs>
+            <g id="cat">
+                <circle cx="70" cy="95" r="50" style="stroke:black; fill:none" />
+                <circle cx="55" cy="80" r="5" fill="#339933" stroke="black"/>
+                <circle cx="85" cy="80" r="5" fill="#339933" stroke="black"/>
+                <!-- 胡子 -->
+                <g id="whiskers">
+                    <line x1="75" y1="95"  x2="135" y2="85" stroke="black" />
+                    <line x1="75" y1="95"  x2="135" y2="105" stroke="black" />
+                </g>
+                <use xlink:href="#whiskers" transform="scale(-1, 1) translate(-140, 0)" />
+                <!-- 耳朵 -->
+                <polyline points="108 62, 90 10, 70 45, 50 10, 32 62" fill="none" stroke="black" />
+                <!-- 嘴 -->
+                <polyline points="35 100, 45 110, 95 110, 105 100" stroke="black" fill="none" />
+                <!-- 鼻子 -->
+                <path  d="M 75 90 L 65 90 A 5 10 0 0 0 75 90" style="stroke:black; fill:#ccc;" />
+            </g>
+        </defs>
+        <use xlink:href="#cat"/>
+        <rect width="100" height=100 x="0" y="0" stroke="red" fill="none" /> 
+    </svg>
+</body>
+</html>
