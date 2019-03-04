@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>svg{margin: 10px auto; shape-rendering: crispEdges; border: 1px solid #000;}</style>
+</head>
+<body>
+    <svg width="400" height="400" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+        <!-- 两种围绕终点旋转的方法 -->
+        <!-- <rect x="100" y="50" width="200" height="50" fill="red" transform="translate(200, 75) rotate(30) translate(-200, -75)" /> -->
+        <rect x="100" y="50" width="200" height="50" fill="blue" transform="rotate(30, 200, 75)"></rect>
+        <!--   -1 * centerX * (scaleV - 1) -->
+        <!-- x:  -1 * 200 * ( 2 - 1 ) -->
+        <!-- y:  -1 * 150 * ( 2 - 1 ) -->
+        <circle cx="200" cy="150" r="10" fill="red" id="centerPoint"/>
+        <rect x="100" y="125" width="200" height="50" fill="none" stroke="#999" transform="translate(-200, -150) scale(2)"  />
+        <rect x="100" y="125" width="200" height="50" fill="none" stroke="#999"/>
+        <rect x="100" y="125" width="200" height="50" fill="none" stroke-width="0.5" stroke="#999" transform="scale(2)"  />
+    </svg>
+</body>
+</html>

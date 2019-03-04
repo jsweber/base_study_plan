@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>svg{margin: 10px auto; shape-rendering: crispEdges; border: 1px solid #000;}</style>
+</head>
+<body>
+    <p> 椭圆曲线 A rx， ry，  水平轴角度（顺时针为正），是否取较大的一部分(1: 取大 0：取小)，两点之间以顺时针绘制为1，逆时针为0， 终点x坐标， 终点y坐标 </p>
+    <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- 画了个棒子旗 -->
+       <g transform="translate(50, 50)">
+            <ellipse  cx="154" cy="154" rx="150" ry="120" fill="#999" />
+            <ellipse  cx="152" cy="152" rx="150" ry="120" fill="#cef" />
+            <path d="M302 152 A150 120 0 1 0 2 152 A75 60 0 1 0 152 152 z" fill="#fcc" />
+            <path d="M152 152 A75 60 0 1 1 302 152 z" fill="#cef" />
+       </g>
+
+    </svg>
+</body>
+</html>
