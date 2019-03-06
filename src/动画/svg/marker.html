@@ -27,7 +27,7 @@
         </g>
         <g transform="translate(50, 150)">
                 <path d="M10 20, 100 20 A20 30 0 0 1 120 50 L120 110" fill="none" stroke="black" marker="url(#mcircle)" />
-                <!-- //试验不支持marker -->
+                <!-- //试验不支持marker作为属性，只支持css写法，注意marker嵌套问题，可能引起无限循环，样式这么写： path{ marker: url(#star) } 然后star里面也有path.... -->
         </g>
         
     </svg>
