@@ -8,7 +8,7 @@
     <style>svg{margin: 10px auto; shape-rendering: crispEdges; border: 1px solid #000;}</style>
 </head>
 <body>
-    <svg width="1000" height="800" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+    <svg width="1000" height="1000" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
         <!-- 文本的位置和轮廓 -->
         <!-- 默认没有stroke -->
         <g>
@@ -68,6 +68,51 @@
                 <text x="150" y="20" style="writing-mode:tb;">中文都不用旋转</text>
                 <!-- rotate和transform:rotate的区别是：前者针对单个字符旋转，后者text旋转 -->
                 <text x="180" y="20" style="writing-mode:tb;" rotate="-90" letter-spacing="8">vertical zero</text>
+            </g>
+
+            <g transform="translate(600, 220)">
+                <!-- 更改书写方向 -->
+                <text direction="rtl" unicode-bidi="bidi-override">right to left</text>
+                <g>
+                    <!-- 国家化 -->
+                    <switch systemLanguage="en">hello </switch>
+                    <switch systemLanguage="zn">你好 </switch>
+                </g>
+                <!-- 自定义字体 -->
+                <defs>
+                    <font-face font-family="bakbatn">
+                        <font-face-src>
+                            <font-face-uri xlink:href="kfont.svg#kfont-defn">
+                                <font-face-format string="svg" />
+                            </font-face-uri>
+                        </font-face-src>
+                    </font-face>
+                </defs>
+                <text font-family="bakbatn">hello</text>
+            </g>
+
+            <g transform="translate(600, 300)">
+                <!-- 文本路径 -->
+                <defs>
+                    <path id="c1" d="M30 40 C50 10, 70 10, 120 40 S150 0, 200 40" fill="none" stroke="gray"></path>
+                    <path id="c2" d="M30 100, 100 100A30 50 0 0 1 130 150 L130 300" fill="none" stroke="gray"></path>
+                    <path id="c3" d="M30 350, 100 350A30 50 0 0 1 180 400 L130 600 M160 600 230 500" fill="none" stroke="gray"></path>
+                </defs>
+                <text>
+                        <textPath xlink:href="#c1" letter-spacing="8">hello 我是文本路径</textPath>
+                </text>
+                <use xlink:href="#c2"/>
+                <text>
+                    <textPath xlink:href="#c2">椭圆曲线的文字hello</textPath>
+                </text>
+                <use xlink:href="#c3"/>
+                <!-- <text>
+                    <textPath xlink:href="#c3" startOffset="70%">我的起始位置可以移动</textPath>
+                </text> -->
+                <!-- 居中 -->
+                <text text-anchor="middle">
+                    <textPath xlink:href="#c3" startOffset="50%">我在居中的位置</textPath>
+                </text>
             </g>
 
     </svg>
