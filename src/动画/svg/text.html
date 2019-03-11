@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>svg{margin: 10px auto; shape-rendering: crispEdges; border: 1px solid #000;}</style>
+</head>
+<body>
+    <svg width="1000" height="800" viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+        <!-- 文本的位置和轮廓 -->
+        <!-- 默认没有stroke -->
+        <g>
+                <path d="M20 10, 20 120 M10 30 100 30 M10 70 100 70 M10 110 100 110" style="stroke:gray" />
+                <text x="20" y="30">Simple text</text>
+                <text x="20" y="70" style="stroke:black;">outlined/filled</text>
+                <text x="20" y="110" style="stroke:black;stroke-witdh:0.5;fill:none;">Outlined only</text>
+        </g>
+
+        <!-- css常见字体样式都能用 font-family font-size font-weight font-style text-decoration word-spacing letter-spacing-->
+        <!-- 文本对齐 text-anchor-->
+        <g transform="translate(0, 130)">
+            <path d="M100 10 100 100" stroke="gray" fill="none"></path>
+            <text x="100" y="30" style="text-anchor: start">start</text>
+            <text x="100" y="60" style="text-anchor: middle">middle</text>
+            <text x="100" y="90" style="text-anchor: end">end</text>
+        </g>
+
+        <!-- tspan应用 -->
+        <g transform="translate(0, 220)">
+            <text x="10" y="30">
+                switch among
+                <tspan style="font-style: italic;">italic</tspan>
+                <!-- dx和dy是相对当前位置的偏移量，支持负数，如果要设置绝对位置就用x和y --> 
+                F<tspan dy="4">a</tspan><tspan dy="8">l</tspan><tspan dy="12">l</tspan>
+                <tspan y="50">使用绝对位置, 不设置x值</tspan>
+                <tspan x="10" y="80">使用绝对位置， 自定义x值</tspan>
+                
+            </text>
+            <text  transform="translate(10, 210)">
+                <!-- 上标与下标 -->
+                    <tspan dy="-10 20 30 0" x="0 -3 8 20" rotate="5 10 -30 30">设置多值</tspan>
+                    H<tspan baseline-shift="sub">2</tspan>O
+                    <tspan dx="20">10</tspan><tspan baseline-shift="super">8</tspan>
+            </text>
+        </g>
+
+            <g  transform="translate(0, 500)">
+            <!-- 宽度 -->
+            <!-- spacing只扩大缩小间隔；spacingAndGlyphs字体间隔和字体大小 -->
+                <path d="M20 10 20 100 M220 10 220 100" style="stroke:gray"/>
+                <text textLength="200" x="20" y="30" lengthAdjust="spacing">two words</text>
+                <text textLength="200" x="20" y="60" lengthAdjust="spacingAndGlyphs">two words</text>
+                <text textLength="200" x="20" y="90">two words(normal)</text>
+
+                <path d="M20 100 20 200 M100 100 100 200" stroke="gray"/>
+                <text textLength="80" x="20" y="120" lengthAdjust="spacing">two words</text>
+                <text textLength="80" x="20" y="150" lengthAdjust="spacingAndGlyphs">two words</text>
+            </g>
+
+            <g transform="translate(500, 0)">
+                <!-- 垂直字体 -->
+                <text x="10" y="20" transform="rotate(90)">Rotate 90</text>
+                <text x="50" y="20" writing-mode="tb">writing-mode: tb</text>
+                <!-- glyph-orientation-vertical默认为90 chrome不生效 -->
+                <text x="100" y="20" style="writing-mode:tb; glyph-orientation-vertical:0;">vertical zero, no effect</text>
+                <text x="150" y="20" style="writing-mode:tb;">中文都不用旋转</text>
+                <!-- rotate和transform:rotate的区别是：前者针对单个字符旋转，后者text旋转 -->
+                <text x="180" y="20" style="writing-mode:tb;" rotate="-90" letter-spacing="8">vertical zero</text>
+            </g>
+
+    </svg>
+</body>
+</html>
