@@ -39,6 +39,44 @@ class BST{
         }
     }
 
+    min(){
+        if (this.root === null) return null
+        let cur = this.root
+        while(cur && cur.left){
+            cur = cur.left
+        }
+
+        return cur
+    }
+
+    max(){
+
+    }
+
+    floor(key){
+        let x = this._floor(this.root, key)
+        if (x === null) return null
+        return x.key
+    }
+
+    _floor(node, key){
+        if (!node) return null
+        let cmp = node.key - key
+        if (cmp > 0) return this._floor(node.left, key)
+        if (cmp == 0) return node
+        let t = this._floor(node.right, key)
+        if (t) return t 
+        return node
+    }
+
+    ceil(key){
+
+    }
+
+    _ceil(node, key){
+        
+    }
+
 }
 
 class Node{
