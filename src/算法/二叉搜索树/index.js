@@ -90,15 +90,33 @@ class BST{
         if (x === null) return x
         return node
     }
+    //按从小到大的顺序，找到排名第k的节点（0开始）
+    select(k){
+        return this._select(this.root, k).key
+    }
+    //null的情况：比如说k太大超过了node总数
+    _select(node, k){
+        if (node == null) return null
 
-    select(){
-
+        let n = this.nodeSize(node.left)
+        if (n === k) return node
+        if (n > k) return this._select(node.left, k) 
+        else return this._select(node.right, n - k - 1)
     }
 
-    rank(){
-        
+    //按从小到大的顺序，节点为key在二叉搜索树中的排名（0开始）
+    rank(key){
+        return this._rank(this.root, key)
     }
 
+    _rank(node, key){
+        if (node === null) return 0
+
+        let t = this.nodeSize(node.left)
+        if (node.key === key) return t
+        if (node.key > key) return this._rank(node.left, key)
+        if (node.key < key) return this._rank(node.right, key) + t + 1
+    }
 }
 
 class Node{
