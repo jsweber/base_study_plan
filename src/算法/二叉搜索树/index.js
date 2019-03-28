@@ -39,9 +39,10 @@ class BST{
         return node
     }
 
-    min(){
-        if (this.root === null) return null
-        let cur = this.root
+    min(node){
+        node = node || this.root
+        if (node === null) return null
+        let cur = node
         while(cur && cur.left){
             cur = cur.left
         }
@@ -49,9 +50,10 @@ class BST{
         return cur
     }
 
-    max(){
-        if (this.root === null) return null
-        let cur = this.root
+    max(node){
+        node = node || this.root
+        if (node === null) return null
+        let cur = node
         while(cur.right){
             cur = cur.right
         }
@@ -116,6 +118,42 @@ class BST{
         if (node.key === key) return t
         if (node.key > key) return this._rank(node.left, key)
         if (node.key < key) return this._rank(node.right, key) + t + 1
+    }
+
+    deleteMin(){
+        if (this.root === null) return
+        this.root = this._delete(this.root)
+    }
+
+    _deleteMin(node){
+        if (node.left === null) return node.right
+        node.left = this._deleteMin(node.left)
+        node.N = nodeSize(node.left) + nodeSize(node.right) + 1
+        return node
+    }
+
+    delete(key){
+        this.root = this._delete(this.root, key)
+    }
+
+    _delete(node, key){
+        if (node === null) return null
+
+        if (key > node.key) node.right = this._delete(node.right, key)
+        else if (key < node.key) node.left = this._delete(node.left, key)
+        else {
+            if (node.left === null) return node.right //node =  node.left 不用这样写的原因：这时完整的左子树，不需要重新计算N，所以return避免了重新计算N
+            else if (node.right === null) return  node.left
+            else {
+                let t = node
+                node = this.min(t.right)
+                node.right = this._deleteMin(t.right)
+                node.left = t.left
+            }
+        }
+
+        node.N = this.nodeSize(node.left) + this.nodeSize(node.right) + 1
+        return node
     }
 }
 
