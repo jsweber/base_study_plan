@@ -155,6 +155,22 @@ class BST{
         node.N = this.nodeSize(node.left) + this.nodeSize(node.right) + 1
         return node
     }
+
+    keys(lo, hi){
+        lo = lo || this.min().key
+        hi = hi || this.max().key
+        let queue = []
+        this._keys(this.root, queue, lo, hi)
+        return queue
+    }
+
+    _keys(node, queue, lo, hi){
+        if (node === null) return
+
+        if (lo < node.key) this._keys(node.left, queue, lo, hi)
+        if (lo <= node.key && hi >= node.key) queue.push(node.key)
+        if (hi > node.key) this._keys(node.right, queue, lo, hi)
+    }
 }
 
 class Node{
