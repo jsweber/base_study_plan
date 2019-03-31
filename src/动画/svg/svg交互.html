@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>注意！此案例需配合web服务器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        object{margin:0; border: 1px solid black;}
+    </style>
+</head>
+<body>
+    <object id="externakShirt" data="./shirt.svg" type="image/svg+xml">
+        <p>Your browser dont support svg</p>
+    </object>
+    <form id="form">
+        <label>red: <input  name="red" type="text" /></label>
+        <label>green: <input  name="green" type="text"  /></label>
+        <label>blue: <input  name="blue" type="text" /></label>
+    </form>
+    <label>rings: <input  id="ring" type="text" /></label>
+<script>
+    window.onload = init
+
+    function init(){
+        let inputs = form.getElementsByTagName('input')
+        let bindInput = function(input, i){
+            input.addEventListener('change', function(e){
+                if (window.setShirtColor){
+                    window.setShirtColor(i, +this.value)
+                }
+            })
+        }
+
+        window.updateInput = function(i, value){
+            inputs[i].value = value
+        }
+        Array.prototype.forEach.call(inputs, bindInput)
+
+        let createRing = (function(){
+            let svg = externakShirt.getSVGDocument()
+            let shirt = svg.getElementById('shirt')
+            let ringInput = document.getElementById('ring')
+            let initRadius = 2
+            return function(){
+                let rings = shirt.getElementsByTagName('circle')
+                console.log(shirt)
+                let nowNum = rings.length
+                let needNum = +ringInput.value
+                if (needNum > 5) needNum = 5
+                if (needNum < 0) needNum = 0
+                while(nowNum > needNum){
+                    shirt.removeChild(rings[nowNum - 1])
+                    nowNum--
+                }
+                while(nowNum < needNum){
+                    let circle = svg.createElementNS('http://www.w3.org/2000/svg', 'circle')
+                    circle.setAttribute('cx', 0)
+                    circle.setAttribute('cy', 0)
+                    circle.setAttribute('r', (6 - nowNum) * initRadius )
+                    circle.setAttribute('fill', nowNum % 2 == 0 ? 'black' : 'white')
+                    nowNum++
+                    shirt.appendChild(circle)
+                }
+            }
+        })()
+        document.getElementById('ring').addEventListener('change', createRing)
+    }
+
+</script>
+</body>
+</html>

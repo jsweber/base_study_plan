@@ -1,0 +1,178 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  onload="main()">
+    <defs>
+        <style type="text/css"><![CDATA[
+            .btn,.slider-group{cursor:pointer;}
+        ]]></style>
+
+        <script type="application/ecmascript"><![CDATA[
+            function main(){
+                let shirt = document.getElementById('shirt')
+                let shirtobj = document.getElementById('shirtobj')
+                let rgb = [100, 100, 100]
+
+                let createButton = function(id, data, handler){
+                    let b = document.getElementById(id)
+                    b.addEventListener('click', function(e){
+                        e.preventDefault()
+                        handler.call(this, data)
+                    })
+                    return b
+                }
+
+                let handler = function(data){
+                    <!-- let calcCenter = Math.round(-200 * (data - 1)) -->
+                    let calcCenter = 0
+                    shirt.setAttribute('transform', `translate(${calcCenter}, ${calcCenter}) scale(${data})`)
+                    shirtobj.setAttribute('stroke-width', (1/data).toFixed(2))
+                }                              
+
+                setShirtColor(0 , 100)
+                function setShirtColor(which=0, data=100){
+                    if (data < 0) data = 0
+                    else if (data > 100) data = 100
+                    rgb[which] = data
+                    shirtobj.setAttribute('fill', `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`)
+                }
+
+                function setSVGshirtColor(which=0, data=100){
+                    setShirtColor(which, data)
+                    let slider = document.getElementsByClassName('slider')[which]
+                    sliderBarY(slider, 100 - data)
+                }
+
+                function init(){
+                    let btnS = createButton('scale0', 1, handler)
+                    let btnM = createButton('scale1', 1.4, handler)
+                    let btnL = createButton('scale2', 1.8, handler)
+                    if(parent){
+                        parent.setShirtColor = setSVGshirtColor
+                    }
+                }
+                init()
+
+                function sliderBarY(slider, y){
+                    slider.setAttribute('y1', y)
+                    slider.setAttribute('y2', y)
+                }
+
+                let initSlider = function(){
+                    let sliderGroups = document.getElementsByClassName('slider-group')
+                    let eventCatcher = document.getElementById('eventCatcher')
+                    let whichFlag = -1
+                    let color = 0
+
+                    let endDrag = function(value){
+                        if (whichFlag != -1){
+                            setShirtColor(whichFlag, value)
+                            if(parent) parent.updateInput(whichFlag, value)
+                        }
+                        whichFlag = -1
+                    }
+
+                    let bindSlider = function(sliderGroup, i){
+                        let y = 0, sy = 0
+                        let slider = sliderGroup.getElementsByClassName('slider')[0]
+                        
+                        sliderGroup.addEventListener('mousedown', function(e){
+                            whichFlag = i
+                            y = e.clientY
+                            sy = +slider.getAttribute('y1')
+                        })
+
+                        sliderGroup.addEventListener('mousemove', function(e){
+                            if (whichFlag != i) return
+                            let nowy = ( e.clientY - y) + sy
+                            
+                            if (nowy < 0){
+                                nowy = 0
+                            }else if (nowy > 100){
+                                nowy = 100
+                            }
+
+                            color = 100 - nowy
+                            sliderBarY(slider, nowy)
+                        })
+
+                        sliderGroup.addEventListener('mouseup', function(){
+                            endDrag(color)
+                        })
+                    }
+
+                    eventCatcher.addEventListener('mouseup', function(){
+                        endDrag(color)
+                    })
+
+                    Array.prototype.forEach.call(sliderGroups, bindSlider)
+                }
+                initSlider()
+            }
+        ]]></script>
+
+        <!-- 65 * 60 -->
+        <path  id="shirt-outline" d="M -6 -30 -32 -19 -25.5 -13 -22 -14 -22 30 23 30 23 -14 26.5 -13 33 -19 7 -30 A 6.5 6 0 0 1 -6 -30"/>
+
+        <rect x="-10" y="-5" width="40" height="110" id="colorbar"/>
+    </defs>
+
+    <rect x="0" y="0" width="500" height="500" fill="none" pointer-events="visible" id="eventCatcher"/>
+
+    <g transform="translate(200, 200)">
+        <g id="shirt">
+            <use xlink:href="#shirt-outline" fill="none" stroke="black" x="0" y="0" id="shirtobj"/>
+        </g>
+    </g>
+
+    <g id="scale0" class="btn">
+        <rect
+            x="100"
+            y="10"
+            width="30"
+            height="30"
+            fill="none"
+            stroke="black"
+        />
+        <text x="115" y="30" style="text-anchor: middle;">S</text>
+    </g>
+
+    <g id="scale1" class="btn">
+        <rect
+            x="140"
+            y="10"
+            width="30"
+            height="30"
+            fill="none"
+            stroke="black"
+        />
+        <text x="155" y="30" style="text-anchor: middle;">M</text>
+    </g>
+
+    <g id="scale2" class="btn">
+        <rect
+            x="180"
+            y="10"
+            width="30"
+            height="30"
+            fill="none"
+            stroke="black"
+        />
+        <text x="195" y="30" style="text-anchor: middle;">L</text>
+    </g>
+
+    <g id="slider0" transform="translate(230, 10)" class="slider-group">
+        <use xlink:href="#colorbar"/>
+        <rect x="5" y="0" width="10" height="100" fill="red"/>
+        <line x1="0" y1="0" x2="20" y2="0" stroke-width="2" stroke="gray" class="slider"/>
+    </g>
+
+    <g id="slider0" transform="translate(280, 10)" class="slider-group">
+        <use xlink:href="#colorbar"/>
+        <rect x="5" y="0" width="10" height="100" fill="green"/>
+        <line x1="0" y1="0" x2="20" y2="0" stroke-width="2" stroke="gray" class="slider"/>
+    </g>
+
+    <g id="slider0" transform="translate(330, 10)" class="slider-group">
+        <use xlink:href="#colorbar"/>
+        <rect x="5" y="0" width="10" height="100" fill="blue"/>
+        <line x1="0" y1="0" x2="20" y2="0" stroke-width="2" stroke="gray" class="slider"/>
+    </g>
+</svg>
