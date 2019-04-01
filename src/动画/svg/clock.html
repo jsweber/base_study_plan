@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>250 * 250 的钟表，中心点在125 125， 包括12个小时刻度，一组时分秒指针和中心远点</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="stage">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250" width="250" height="250" preserveAspectRatio="xMidYMid meet" onload="init()" id="clock"><title>clock</title></svg>
+</div>
+<script>
+    function init(){
+        let svg = document.getElementById('clock')
+        let ns = svg.namespaceURI
+
+        clock.suspendRedraw(1000)
+        //创建表盘
+        let face = document.createElementNS(ns, 'circle')
+        face.cx.baseVal.value = 125
+        face.cy.baseVal.value = 125
+        face.r.baseVal.value = 100
+        face.style.cssText = 'fill: white; stroke: black;'
+        clock.appendChild(face)
+
+        //创建时刻
+        let ticks = document.createElementNS(ns, 'g')
+        ticks.setAttribute('transform', 'translate(125, 125)')
+        for (let i = 0; i < 12; i++){
+            let tick = document.createElementNS(ns, 'path')
+            tick.setAttribute('d', 'M95 0 L100 -5, 100 5Z')
+            tick.setAttribute('transform', `rotate(${i * 30})`)
+            ticks.appendChild(tick)
+        }
+
+        //指针
+        let hands = document.createElementNS(ns, 'g')
+        hands.style.cssText = 'stroke-with:5; stroke: black; stroke-linecap: round;'
+        let circle = document.createElementNS(ns, 'circle')
+        circle.setAttribute('cx', 125)
+        circle.setAttribute('cy', 125)
+        circle.setAttribute('r', 4)
+
+        let hour = document.createElementNS(ns, 'path')
+        hour.id = "hour"
+        hour.setAttribute('d', 'M125 125, L125 75')
+        hour.setAttribute('stroke-with', '18')
+        hour.setAttribute('transform', `rotate(0, 125, 125)`)
+
+        let minute = document.createElementNS(ns, 'path')
+        minute.id = "minute"
+        minute.setAttribute('d', 'M125 125, L125 50')
+        minute.setAttribute('stroke-with', '12')
+        minute.setAttribute('stroke', 'blue')
+        minute.setAttribute('transform', `rotate(30, 125, 125)`)
+
+        let second = document.createElementNS(ns, 'path')
+        second.id = "second"
+        second.setAttribute('d', 'M125 125, L125 35')
+        second.setAttribute('stroke', 'red')
+        second.setAttribute('transform', `rotate(60, 125, 125)`)
+
+        hands.appendChild(circle)
+        hands.appendChild(hour)
+        hands.appendChild(minute)
+        hands.appendChild(second)
+        clock.appendChild(hands)
+        clock.appendChild(ticks)
+        clock.unsuspendRedrawAll()
+    }
+</script>
+</body>
+</html>
