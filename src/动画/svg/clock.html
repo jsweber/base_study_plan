@@ -53,13 +53,13 @@
         minute.setAttribute('d', 'M125 125, L125 50')
         minute.setAttribute('stroke-with', '12')
         minute.setAttribute('stroke', 'blue')
-        minute.setAttribute('transform', `rotate(30, 125, 125)`)
+        minute.setAttribute('transform', `rotate(0, 125, 125)`)
 
         let second = document.createElementNS(ns, 'path')
         second.id = "second"
         second.setAttribute('d', 'M125 125, L125 35')
         second.setAttribute('stroke', 'red')
-        second.setAttribute('transform', `rotate(60, 125, 125)`)
+        second.setAttribute('transform', `rotate(0, 125, 125)`)
 
         hands.appendChild(circle)
         hands.appendChild(hour)
@@ -68,6 +68,31 @@
         clock.appendChild(hands)
         clock.appendChild(ticks)
         clock.unsuspendRedrawAll()
+
+
+        let secondTransform = second.transform.baseVal.getItem(0)
+        let minuteTransform = minute.transform.baseVal.getItem(0)
+        let hourTransform = hour.transform.baseVal.getItem(0)
+
+        let secondTime = 60
+        let minuteTime = 60 * secondTime
+        let hour12Time = 12 * minuteTime
+
+        updateClock()
+
+        function updateClock(){
+            let dateObj = new Date()
+            let dateTIme = dateObj.getMilliseconds() / 1000 + dateObj.getSeconds() + dateObj.getMinutes() * secondTime + dateObj.getHours() * minuteTime
+            let secondRotate = dateTIme % secondTime * 360 / secondTime
+            let minuteRotate = dateTIme % minuteTime  * 360 / minuteTime
+            let hourRotate = dateTIme % hour12Time  * 360 / hour12Time
+
+            secondTransform.setRotate(secondRotate, 125, 125)
+            minuteTransform.setRotate(minuteRotate, 125, 125)
+            hourTransform.setRotate(hourRotate, 125, 125)
+            window.requestAnimationFrame(updateClock)
+        }
+
     }
 </script>
 </body>
