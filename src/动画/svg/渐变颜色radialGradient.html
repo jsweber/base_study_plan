@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="stage">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <radialGradient id="three-stops">
+                    <stop offset="0" stop-color="#f96"/>
+                    <stop offset="0.5" stop-color="#9c9"/>
+                    <stop offset="1" stop-color="#906"/>
+                </radialGradient>
+                <!-- cx默认值50% cy默认值50%, r默认值50%, fx默认和cx一样, fy默认和cy一样 -->
+                <radialGradient id="center" cx="0" cy="0" r="141%">
+                    <stop offset="0" stop-color="#f96"/>
+                    <stop offset="0.5" stop-color="#9c9"/>
+                    <stop offset="1" stop-color="#906"/>
+                </radialGradient>
+                <!-- 141%的原因是半径不是以对角线为基础的，而是以长和宽均值的百分比 -->
+                <!-- 什么是焦点，不好解释，直接看图 -->
+                <radialGradient id="foucs" cx="0" cy="0" r="1" fx="0.5" fy="0.5">
+                    <stop offset="0" stop-color="#f96"/>
+                    <stop offset="0.5" stop-color="#9c9"/>
+                    <stop offset="1" stop-color="#906"/>
+                </radialGradient>
+                <!-- 同样的，radialGradient也有spreadMethod属性 -->
+                <radialGradient id="three-stops2" r="70%" cx="0" cy="0">
+                    <stop offset="0" stop-color="#f96"/>
+                    <stop offset="0.5" stop-color="#9c9"/>
+                    <stop offset="1" stop-color="#906"/>
+                </radialGradient>
+                <radialGradient id="pad" xlink:href="#three-stops2" spreadMethod="pad"></radialGradient>
+                <radialGradient id="repeat" xlink:href="#three-stops2" spreadMethod="repeat"></radialGradient>
+                <radialGradient id="reflect" xlink:href="#three-stops2" spreadMethod="reflect"></radialGradient>
+            </defs>
+
+            <rect
+                x="10"
+                y="10"
+                width="100"
+                height="100"
+                fill="url(#three-stops)"
+                stroke="black"
+            />
+
+            <rect
+                x="120"
+                y="10"
+                width="100"
+                height="100"
+                fill="url(#center)"
+                stroke="black"
+            />
+
+            <rect
+                x="10"
+                y="120"
+                width="100"
+                height="100"
+                fill="url(#foucs)"
+                stroke="black"
+            />
+
+            <rect
+                x="0"
+                y="230"
+                width="100"
+                height="100"
+                fill="url(#pad)"
+                stroke="black"
+            />
+
+            <rect
+                x="110"
+                y="230"
+                width="100"
+                height="100"
+                fill="url(#repeat)"
+                stroke="black"
+            />
+
+            <rect
+                x="220"
+                y="230"
+                width="100"
+                height="100"
+                fill="url(#reflect)"
+                stroke="black"
+            />
+
+            
+
+        </svg>
+    </div>
+</body>
+</html>
