@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>裁剪和蒙版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="stage">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <clipPath id="rectClip">
+                    <rect id="rect" x="35" y="15" width="40" height="45" stroke="gray" fill="none"></rect>
+                </clipPath>
+
+                <clipPath id="textClip">
+                    <text x="30" y="20" style="font-size: 45pt; stroke: black;" transform="rotate(60)">HELLO</text>
+                </clipPath>
+
+                <!-- 根据对象的边界来设置裁剪尺寸 -->
+                <clipPath id="circleClip" clipPathUnits="objectBoundingBox">
+                    <circle cx="0.5" cy="0.5" r="0.5"></circle>
+                </clipPath>
+
+                <g id="pic">
+                    <rect x="10" y="10" width="50" height="50" fill="red"></rect>
+                    <circle cx="75" cy="75" r="25" fill="blue" />
+                </g>
+            </defs>
+
+            <use xlink:href="#pic" clip-path="url(#rectClip)"></use>
+            
+            <use xlink:href="#pic" clip-path="url(#textClip)" transform="translate(100, 10)"></use>
+
+            <use xlink:href="#pic" clip-path="url(#circleClip)" transform="translate(10, 200)"></use>
+
+
+        </svg>
+    </div>
+</body>
+</html>

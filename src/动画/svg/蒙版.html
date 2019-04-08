@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>裁剪和蒙版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="stage">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <!-- 计算阿尔法值公式，阿尔法值等不透明度 -->
+                <!-- (0.2125 * red value + 0.7154 * green value + 0.0721 * blue value) * opacity value  -->
+                <!-- 可见如果颜色为白色即fff则公式前半部分为1，值就由opacity决定 -->
+                <!-- 不透明蒙版 即opacity=1-->
+                <mask id="red" x="0" y="0" width="1" height="1" maskContentUnits="objectBoundingBox">
+                    <rect x="0" y="0" width="1" height="1" style="fill:#f00;"></rect>
+                </mask>
+
+                <mask id="green" x="0" y="0" width="1" height="1" maskContentUnits="objectBoundingBox">
+                    <rect x="0" y="0" width="1" height="1" style="fill:#0f0;"></rect>
+                </mask>
+
+                <mask id="blue" x="0" y="0" width="1" height="1"  maskContentUnits="objectBoundingBox">
+                    <rect x="0" y="0" width="1" height="1" style="fill:#00f;"></rect>
+                </mask>
+
+                <mask id="white" x="0" y="0" width="1" height="1"  maskContentUnits="objectBoundingBox">
+                    <rect x="0" y="0" width="1" height="1" style="fill:#fff;"></rect>
+                </mask>
+            </defs>
+
+            <rect x="10" y="10" width="50" height="50" style="fill:#f00;"></rect>
+            <rect x="70" y="10" width="50" height="50" style="fill:#0f0;"></rect>
+            <rect x="130" y="10" width="50" height="50" style="fill:#00f;"></rect>
+            <rect x="190" y="10" width="50" height="50" style="fill:#fff; stroke:black;"></rect>
+
+            <g mask="url(#red)" font-size="14pt" text-anchor="middle" >
+                <circle cx="35" cy="115" r="25" fill="black" />
+                <text x="35" y="80">Red</text>
+            </g>
+
+            <g mask="url(#green)" font-size="14pt" text-anchor="middle" >
+                <circle cx="95" cy="115" r="25" fill="black" />
+                <text x="95" y="80">Green</text>
+            </g>
+
+            <g mask="url(#blue)" font-size="14pt" text-anchor="middle" >
+                <circle cx="155" cy="115" r="25" fill="black" />
+                <text x="155" y="80">Blue</text>
+            </g>
+
+            <g mask="url(#white)" font-size="14pt" text-anchor="middle" >
+                <circle cx="215" cy="115" r="25" fill="black" />
+                <text x="215" y="80">White</text>
+            </g>
+
+            <!-- 颜色确定 opacity变动 -->
+            <defs>
+                <mask id="full" x="0" y="0" width="1" height="1" maskContentUnits="objectBoundingBox">
+                        <rect x="0" y="0" width="1" height="1" style="fill:#fff; fill-opacity: 1;" ></rect>
+                    </mask>
+    
+                    <mask id="three-fourths" x="0" y="0" width="1" height="1" maskContentUnits="objectBoundingBox">
+                        <rect x="0" y="0" width="1" height="1" style="fill:#fff; fill-opacity:0.75;"></rect>
+                    </mask>
+    
+                    <mask id="half" x="0" y="0" width="1" height="1"  maskContentUnits="objectBoundingBox">
+                        <rect x="0" y="0" width="1" height="1" style="fill:#fff;fill-opacity: 0.5;"></rect>
+                    </mask>
+    
+                    <mask id="one-fourth" x="0" y="0" width="1" height="1"  maskContentUnits="objectBoundingBox">
+                        <rect x="0" y="0" width="1" height="1" style="fill:#fff;fill-opacity:0.25;"></rect>
+                    </mask>
+            </defs>
+
+            <g transform="translate(0, 400)">
+                <g mask="url(#full)" font-size="14pt" text-anchor="middle" >
+                    <circle cx="35" cy="115" r="25" fill="black" />
+                    <text x="35" y="80">full</text>
+                </g>
+    
+                <g mask="url(#three-fourths)" font-size="14pt" text-anchor="middle" >
+                    <circle cx="95" cy="115" r="25" fill="black" />
+                    <text x="95" y="80">three-fourths</text>
+                </g>
+    
+                <g mask="url(#half)" font-size="14pt" text-anchor="middle" >
+                    <circle cx="155" cy="115" r="25" fill="black" />
+                    <text x="155" y="80">half</text>
+                </g>
+    
+                <g mask="url(#one-fourth)" font-size="14pt" text-anchor="middle" >
+                    <circle cx="215" cy="115" r="25" fill="black" />
+                    <text x="215" y="80">one-fourth</text>
+                </g>
+            </g>
+        
+        </svg>
+    </div>
+</body>
+</html>
