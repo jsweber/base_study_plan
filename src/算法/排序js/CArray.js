@@ -79,7 +79,7 @@ class CArray{
         for (let i = 1; i < len; i++){
             temp = arr[i]
             j = i
-            while(j > 0 && (arr[j - 1] > temp)){
+            while(j > 0 && (arr[j - 1] > temp)){//易错点：写arr[j - 1] > arr[j]这个逻辑在第二次循环排的时候就出错了，因为后后一个一定比后一个小，temp只能放在后一个或者当前的位置上 
                 arr[j] = arr[j - 1]
                 j--
             }
@@ -103,7 +103,6 @@ class CArray{
             }
             n = (n-1) / 3
         }
-       
     }
 
     //归并排序
@@ -125,7 +124,7 @@ class CArray{
                 startRight = startLeft + step
             }
 
-            if (startRight < len){
+            if (startRight < len){//易错点，不知道为什么容易写出while
                 this.mergeArr(arr, startLeft, startLeft + step, startRight, len)
             }
             step *= 2
@@ -167,7 +166,7 @@ class CArray{
         bigArr = [],
         qivot = arr[0]
 
-        for (let i = 1; i < len; i++){
+        for (let i = 1; i < len; i++){//易错点：i = 0 造出溢栈
             if (qivot < arr[i]){
                 bigArr.push(arr[i])
             }else {
