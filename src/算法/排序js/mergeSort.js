@@ -20,6 +20,16 @@ function mergeSort2(arr, lo, hi){
     mergeSort2(arr, mid+1, hi)
     mergeArr(arr, lo, hi)
 }
+//自底向上
+function mergeSort3(arr, lo, hi){
+    let N = arr.length
+
+    for (let sz = 1; sz < N; sz *= 2 ){
+        for (let lo = 0; lo < N - sz; lo+=(sz + sz)){
+            mergeArr(arr, lo, Math.min(lo+sz+sz -1, N-1))
+        }
+    }
+}
 
 function mergeArr(arr, lo, hi){
     let temp = new Array(arr.length)//这里比较关键，要不然lo和hi与left和right对不上
@@ -49,6 +59,6 @@ function mergeArr(arr, lo, hi){
 
 let arr = BuildNum(8)
 console.log('prev: ' + arr.join())
-mergeSort2(arr, 0, arr.length-1)
+mergeSort3(arr, 0, arr.length-1)
 
 console.log('sorted:  ' + arr.join())
