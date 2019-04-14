@@ -105,7 +105,7 @@ class CArray{
         }
     }
 
-    //归并排序
+    //归并排序，自底向上
     mergeSort(){
         if (this.dataStore.length < 2) return
         let arr = this.dataStore, 
