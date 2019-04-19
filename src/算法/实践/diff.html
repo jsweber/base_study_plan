@@ -1,0 +1,76 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>diff</title>
+    <style>
+        [data-border-radius]{
+            border-radius: 2px;
+        }
+        #app{
+            width: 500px;
+            padding: 30px;
+            margin: 30px auto;
+            border: 1px solid #ccc;
+        }
+        span{
+            margin: 0 4px;
+        }
+
+        .add{
+            padding: 0 5px;
+            background: rgba(0,180, 50, 0.5);
+        }
+        .add::before{
+            content: '+ ';
+            color: #fff;
+            position: relative;
+            top: -1px;
+        }
+        .del{
+            padding: 0 5px;
+            background: rgba(180, 0, 0, 0.5);
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h3>JD抽取新老因素对比</h3>
+    <p id="old"><span class="del" data-border-radius>hey</span><span>world</span></p>
+    <p id="new"><span class="add" data-border-radius>hello</span><span>world</span></p>
+</div>
+
+<script>
+    const Common = 1
+    const Add = 2
+    const Del = 3
+    function createSpan(text, type=Commen){
+        let span = document.createElement('span')
+        return {
+            el: span,
+            text,
+            type,
+        }
+    }
+
+    function createAddSpan(text){
+        return createSpan(text, Add)
+    }
+
+    function createDelSpan(text){
+        return createSpan(text, Del)
+    }
+    
+    let oldList = ['hello', 'world', 'happy']
+    let newList = ['hey', 'world', 'very', 'happy', 'Yep']
+
+    function diff(oldList, newList){
+
+        
+    }
+
+
+</script>
+</body>
+</html>
