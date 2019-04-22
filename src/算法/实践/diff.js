@@ -1,3 +1,4 @@
+//效果按理，参照git
 const createPlainObject = () => Object.create(null)
 
 const getItemKey = (o, key) => {
@@ -29,7 +30,7 @@ const diff = (oldList, newList, key) => {
     let oldMap = makeKeyIndexAndFree(oldList, key)
     let newMap = makeKeyIndexAndFree(newList, key)
 
-    let newFree = newMap.free
+    let newFree = newMap.free //老的free不要了
 
     let oldKeyIndex = oldMap.keyIndex
     let newKeyIndex = newMap.keyIndex
