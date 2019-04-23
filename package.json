@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "node server.js",
     "test": "jest --watch",
     "test:all": "jest",
     "test:change": "jest -o"

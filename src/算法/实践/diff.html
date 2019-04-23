@@ -42,33 +42,9 @@
 </div>
 <script src="./easydiff.js"></script>
 <script>
-    const Common = 1
-    const Add = 2
-    const Del = 3
-    function createSpan(text, type=Commen){
-        let span = document.createElement('span')
-        return {
-            el: span,
-            text,
-            type,
-        }
-    }
-
-    function createAddSpan(text){
-        return createSpan(text, Add)
-    }
-
-    function createDelSpan(text){
-        return createSpan(text, Del)
-    }
     
     let oldList = ['hello', 'world', 'happy']
     let newList = ['hey', 'world', 'very', 'happy', 'Yep']
-
-    function diff(oldList, newList){
-
-        
-    }
 
 
 </script>

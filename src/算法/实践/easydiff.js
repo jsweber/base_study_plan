@@ -91,6 +91,7 @@ class EasyDiff{
             }
         }
 
+        let startList = subOldList.slice()
         let j = i = 0
         let subOldItem = null, subOldIndex = 0
         while(i < newList.length){
@@ -110,7 +111,9 @@ class EasyDiff{
                         let nextSubOldListItem = subOldList[j+1]
                         let nextSubOldListVal = getVal(nextSubOldListItem, key)
                         if (nextSubOldListVal === val){
-                            
+                            del(i)
+                            delItem(subOldList, j)
+                            j++
                         }else {
                             add(i, item)
                         }
@@ -128,7 +131,10 @@ class EasyDiff{
 
 
 
-
+        return {
+            startList,
+            actions
+        }
     }
 
 }
