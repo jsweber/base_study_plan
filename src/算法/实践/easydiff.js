@@ -81,6 +81,8 @@ class EasyDiff{
             i++
         }
 
+        let startList = subOldList.slice()
+
         i = 0
         while(i < subOldList.length){
             if (subOldList[i] === null){
@@ -91,7 +93,6 @@ class EasyDiff{
             }
         }
 
-        let startList = subOldList.slice()
         let j = i = 0
         let subOldItem = null, subOldIndex = 0
         while(i < newList.length){

@@ -8,7 +8,7 @@ const server = http.createServer((req, res) => {
     let pathObj = url.parse(req.url, true)
     let static = path.resolve(__dirname, './')
     let filepath = decodeURIComponent(path.join(static, pathObj.pathname))
-    console.log(filepath)
+    console.log('request: ' +filepath)
     fs.readFile(filepath, (err, file) => {
         if (err){
             console.log(404)
@@ -16,7 +16,6 @@ const server = http.createServer((req, res) => {
             res.end('<h1>404 Not Found</h1>')
             return
         }
-        console.log(`find ${filepath}`)
         res.write(file)
         res.end()
     })
