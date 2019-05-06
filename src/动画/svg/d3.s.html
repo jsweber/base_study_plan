@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Page Title</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    
+</style>
+</head>
+<body>
+    <div id="container"></div>
+<script src="./libs/d3.js"></script>
+<script src="./assets/NC.data.js"></script>
+<script>
+    const margin = {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 40
+    }
+    const width = 640 - margin.left - margin.right
+    const height = 400 - margin.top - margin.bottom
+
+    let svg = d3.select('#container').append('svg').attr('height', height).attr('width', width)
+    let chart = svg.append('g').attr('transform', ` translate(${margin.left},${margin.top})`)
+
+    //建立x轴和y轴
+    let xScale = d3.scale.linear().range([0, width])
+    let yScale = d3.scale.linear().range([height, 0])
+
+    //给坐标轴设置刻度范围
+    xScale.domain([
+        d3.min(hubble_data, function(n){
+            return n.dis - n.dis_error
+        }),
+        d3.max(hubble_data, function(n){
+            return n.dis + n.dis_error
+        })
+    ])
+
+    yScale.domain([
+        d3.min(hubble_data, function(n){
+            return n.v  - n.v_error
+        }),
+        d3.max(hubble_data, function(n){
+            return n.v + n.v_error
+        })
+    ])
+
+</script>
+</body>
+</html>
