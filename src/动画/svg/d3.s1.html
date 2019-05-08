@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="container"></div>
-<script src="./libs/d3.js"></script>
+<script src="../src/动画/svg/libs/d3.js"></script>
 <script>
     const margin = {
         top: 20,
@@ -26,19 +26,18 @@
 
     let chart = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`).attr('width', width).attr('height', height)
 
-    let data  = [1,2,5, 7, 8, 4, 3, 7]
+    let data  = [1, 2, 5, 7, 8, 4, 3, 7]
     let scaleX = d3.scaleLinear().domain([0, data.length - 1]).range([0, width])
-    let scaleY = d3.scaleLinear().domain([0, d3.max(data)]).range([0, height])
+    let scaleY = d3.scaleLinear().domain([0, d3.max(data)]).range([height, 0])
 
-    let lineGenerator = d3.line().x((_, i) => scaleX(i)).y(d => scaleY(d))
-    .curve(d3.curveBasisOpen)
-    // let lineGenerator = d3.line()
-    // .x(function(d) { return x(d.date); })
-    // .y(function(d) { return y(d.value); })
-   
+    let lineGenerator = d3.line().x((_, i) => scaleX(i)).y(d =>scaleY(d)).curve(d3.curveBasis)
+
+    let axisX = d3.axisBottom(scaleX).ticks(data.length)
+    let axisY = d3.axisLeft(scaleY)
 
     chart.append('path').attr('d', lineGenerator(data)).style('fill', 'none').style('stroke', 'blue')
-
+    chart.append('g').call(axisX).attr('transform', `translate(0, ${height})`)
+    chart.append('g').call(axisY)
 
    
 
