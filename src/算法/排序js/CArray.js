@@ -3,7 +3,7 @@ class CArray{
     constructor(numElements){
         this.dataStore = []
         this.pos = 0
-        this.numElements = numElements
+        this.numElements = numElements // 生成的数组长度
     }
 
     insert(element){
