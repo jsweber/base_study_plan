@@ -1,7 +1,41 @@
 // https://juejin.cn/post/6844903625769091079
 
 function resolvePromise(promise2, x, resolve, reject){
+    if (promise2 === x){
+        throw 'Chaining cycle detected for promise';
+    }
 
+    let called = false;
+
+    if (x !== null && (typeof x === 'object' || typeof x === 'function')){
+        const then = x.then;
+        try {
+            if (typeof then === 'function'){
+                then.call(x, y => {
+                    if (called) return;
+                    called = true;
+                    resolvePromise(promise2, y, resolve, reject);
+                }, err => {
+                    if (called) return;
+                    called = true;
+                    reject(err);
+                });
+            } else {
+                if (called) return;
+                called = true;
+                resolve(x);
+            }
+
+        }catch(err) {
+            if (called) return;
+            called = true;
+            reject(err);
+        }
+    } else {
+        if (called) return;
+        called = true;
+        resolve(x);
+    }
 }
 
 class Promise {
@@ -39,27 +73,54 @@ class Promise {
     }
 
     then(onResolved, onRejected) {
+        onResolved = typeof onResolved === 'function' ? onResolved : v => v;
+        onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err };
+
         const promise2 = new Promise((resolve, reject) => {
             if (this.state === 'fulfilled'){
-                const x = onResolved(this.value);
+                // promise a+ 规定 onResolve和onReject一定要异步调用
+                setTimeout(() => {
+                    try {
+                        const x = onResolved(this.value);
 
-                resolvePromise(promise2, x, resolve, reject);
+                        resolvePromise(promise2, x, resolve, reject);
+                    }catch(e) {
+                        reject(err);
+                    }
+                }, 0);
             } else if (this.state === 'reject'){
-                const x = onRejected(this.reason);
-
-                resolvePromise(promise2, x, resolve, reject);
+                setTimeout(() => {
+                    try {
+                        const x = onRejected(this.reason);
+                        resolvePromise(promise2, x, resolve, reject);
+                    } catch(e){
+                        reject(e);
+                    }
+                }, 0)
             }
     
             if (this.state === 'pending'){
                 this.onResolvedCallbacks.push(() => {
-                    const x = onResolved(this.value);
-                    resolvePromise(promise2, x, resolve, reject);
+                    setTimeout(() => {
+                        try {
+                            const x = onResolved(this.value);
+    
+                            resolvePromise(promise2, x, resolve, reject);
+                        }catch(e) {
+                            reject(err);
+                        }
+                    }, 0);
                 });
     
                 this.onRejectedCallbacks.push(() => {
-                    const x = onRejected(this.reason);
-
-                    resolvePromise(promise2, x, resolve, reject);
+                    setTimeout(() => {
+                        try {
+                            const x = onRejected(this.reason);
+                            resolvePromise(promise2, x, resolve, reject);
+                        } catch(e){
+                            reject(e);
+                        }
+                    }, 0);
                 });
             }
         });
@@ -67,4 +128,8 @@ class Promise {
         return promise2;
     }
 }
+
+Promise.all = function(promiseList){}
+
+Promise.race = function(promiseList){}
 
