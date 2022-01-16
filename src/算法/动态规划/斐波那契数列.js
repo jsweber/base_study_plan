@@ -5,22 +5,43 @@
 // fib(3) = fib(2) + 1
 // fib(4) = fib(3) + 2
 
-const fib = n => {
-    if (n <= 0) return null
-    if (n === 1) return 0
-    if (n === 2) return 1
+// const fib = n => {
+//     if (n <= 0) return null
+//     if (n === 1) return 0
+//     if (n === 2) return 1
 
-    let fib1 = 0
-    let fib2 = 1
-    let fib3 = 0
+//     let fib1 = 0
+//     let fib2 = 1
+//     let fib3 = 0
 
-    for (let i = 2; i < n; i++) {
-        // 辗转相加
-        fib3 = fib1 + fib2
-        fib1 = fib2
-        fib2 = fib3
+//     for (let i = 2; i < n; i++) {
+//         // 辗转相加
+//         fib3 = fib1 + fib2
+//         fib1 = fib2
+//         fib2 = fib3
+//     }
+//     return fib3
+// }
+
+function fib(n) {
+    let n1 = 1;
+    let n2 = 1;
+    let ret = 0;
+    if (n < 3){
+        if (n <= 0){
+            return undefined;
+        } else {
+            return 1;
+        }
     }
-    return fib3
+    
+    for (let i = 2; i < n; i++){
+        ret = n1 + n2;
+        n2 = ret;
+        n1 = n2;
+    }
+
+    return ret;
 }
 
 console.log(fib(0));
