@@ -17,29 +17,35 @@ class Node {
 
 
 const createBST = (n = 10) => {
-    const list = createList(n);
+    const list = filterSameNum(createList(n));
     console.log(list);
     let root = new Node(list[0]);
     let current = root;
 
+    let count = 0
+
     for (let i = 1; i < list.length; i++){
         const val = list[i];
         while (current){
-            console.log(current, val);
+            count++;
+            if (count === 20) return;
             if (val < current.value){
                 if (current.left){
                     current = current.left;
                 } else {
                     current.left = new Node(val);
+                    break;
                 }
             } else {
                 if (current.right) {
                     current = current.right
                 } else {
                     current.right = new Node(val);
+                    break;
                 }
             }
         }
+        current = root;
         
     }
 
@@ -77,16 +83,18 @@ const BFS = (root, fn=noop) => {
 }
 
 const filterSameNum = (list = []) => {
-    let i = 0;
-    let count = 0;
-    const len = list.length;
+    const map = {};
 
-    for (let j = 0; j < len; j++) {
-
-    }
+    return list.filter(n => {
+        if (map[n]){
+            return false;
+        }
+        map[n] = 1;
+        return true;
+    });
 }
 
-// console.log(createBST(5));
+console.log(createBST(5));
 
 
 // 迭代遍历 前中后
