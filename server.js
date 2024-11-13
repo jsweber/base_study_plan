@@ -5,6 +5,11 @@ const path = require('path')
 
 const server = http.createServer((req, res) => {
 
+    if (path.normalize(decodeURIComponent(pathObj.pathname)) !== decodeURIComponent(pathObj.pathname)) {
+        res.statusCode = 403;
+        res.end();
+        return;
+    }
     let pathObj = url.parse(req.url, true)
     let static = path.resolve(__dirname, './')
     let filepath = decodeURIComponent(path.join(static, pathObj.pathname))
